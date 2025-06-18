@@ -18,10 +18,10 @@ namespace ic_tienda_data.sources.BaseDeDatos.Seeds
                 new Customer
                 {
                     Id = 1,
-                    FirstName = "Admin",
-                    LastName = "User",
-                    Email = "admin@example.com",
-                    Password = BCrypt.Net.BCrypt.HashPassword("Admin123"),
+                    FirstName = "Pedrito",
+                    LastName = "Pica Piedra",
+                    Email = "pedro@gmail.com",
+                    Password = BCrypt.Net.BCrypt.HashPassword("123456"),
                     Phone = "123456789",
                 }
             );
