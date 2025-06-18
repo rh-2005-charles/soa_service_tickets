@@ -76,6 +76,11 @@ namespace ic_tienda_data.sources.BaseDeDatos
         // Propiedades que representan tablas de la base de datos.
 
         public DbSet<Customer> Customers { get; set; }
+        public DbSet<Event> Events { get; set; }
+
+
+
+
         public virtual DbSet<Category> Categories { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
         public DbSet<Order> Orders { get; set; }

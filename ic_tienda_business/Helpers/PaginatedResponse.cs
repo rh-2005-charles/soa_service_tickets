@@ -1,26 +1,37 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Runtime.Serialization;
+using ic_tienda_business.Dtos.Responses;
 
 namespace ic_tienda_business.Helpers
 {
-    public class PaginatedResponse<T>
+    [DataContract(Namespace = "http://tempuri.org/")]
+    public abstract class PaginationBase
     {
-        public List<T>? Items { get; set; }
+        [DataMember(Order = 2)]
         public int TotalCount { get; set; }
+
+        [DataMember(Order = 3)]
         public int PageNumber { get; set; }
+
+        [DataMember(Order = 4)]
         public int PageSize { get; set; }
-        public int TotalPages => (int)Math.Ceiling((double)TotalCount / PageSize);
+
+        [DataMember(Order = 5)]
+        public int TotalPages { get; set; }
+        // public int TotalPages => (int)Math.Ceiling((double)TotalCount / PageSize) ; 
     }
 
-    public class PaginatedResponseProduct<T>
+
+    [DataContract(Namespace = "http://tempuri.org/")]
+    public class PaginatedResponse<T> : PaginationBase
     {
-        public List<T>? Items { get; set; }
-        public int TotalCount { get; set; }
-        public int PageNumber { get; set; }
-        public int PageSize { get; set; }
-        public List<int?> CategoryIds { get; set; }
-        public int TotalPages => (int)Math.Ceiling((double)TotalCount / PageSize);
+        [DataMember(Order = 1)]
+        public List<T> Items { get; set; } = new List<T>();
+    }
+
+    [DataContract(Namespace = "http://tempuri.org/")]
+    public class EventPaginatedResponse : PaginationBase
+    {
+        [DataMember(Order = 1)]
+        public List<EventResponse> Events { get; set; } = new List<EventResponse>();
     }
 }

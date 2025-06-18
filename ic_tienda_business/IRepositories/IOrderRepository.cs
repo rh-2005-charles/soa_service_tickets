@@ -13,11 +13,11 @@ namespace ic_tienda_business.IRepositories
         Task<OrderResponse> GetByIdAsync(int id);
         Task<OrderResponse> AddAsync(OrderRequest orderRequest);
         Task<OrderResponse> UpdateAsync(int id, OrderRequest orderRequest);
-        Task<PaginatedResponse<OrderResponse>> GetAllAsync(QueryObjectOrder query);
-        Task<PaginatedResponse<OrderResponse>> GetAllInProcessAsync(QueryObjectOrder query);
+       // Task<PaginatedResponse<OrderResponse>> GetAllAsync(QueryObjectOrder query);
+       // Task<PaginatedResponse<OrderResponse>> GetAllInProcessAsync(QueryObjectOrder query);
         Task DeleteAsync(OrderResponse orderResponse);
         Task<IEnumerable<OrderDetailResponse>> GetOrderDetailsAsync(int orderId);//GetInProcessOrdersByCustomerIdAsync
         Task<IEnumerable<OrderResponse>> GetInProcessOrdersByCustomerIdAsync(int customerId);
-        Task<PaginatedResponse<OrderResponse>> GetOrdersByStatusAsync(QueryObjectOrderTwo query);
+      //  Task<PaginatedResponse<OrderResponse>> GetOrdersByStatusAsync(QueryObjectOrderTwo query);
     }
 }

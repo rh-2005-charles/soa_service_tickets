@@ -86,7 +86,7 @@ namespace ic_tienda_data.Repositories
             // Aplica ordenación si 'SortBy' tiene un valor.
             if (!string.IsNullOrEmpty(query.SortBy))
             {
-                queryable = query.IsDecsending
+                queryable = query.IsDescending
                 ? queryable.OrderByDescending(e => e.Id)
                 : queryable.OrderBy(e => e.Id);
             }

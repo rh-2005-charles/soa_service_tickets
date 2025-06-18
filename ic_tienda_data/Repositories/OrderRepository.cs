@@ -45,93 +45,93 @@ namespace ic_tienda_data.Repositories
             }
         }
 
-        public async Task<PaginatedResponse<OrderResponse>> GetAllAsync(QueryObjectOrder query)
-        {
-            var queryAble = _context.Orders.AsQueryable();
+        /*  public async Task<PaginatedResponse<OrderResponse>> GetAllAsync(QueryObjectOrder query)
+         {
+             var queryAble = _context.Orders.AsQueryable();
 
-            // Apply search filter if provided
-            if (!string.IsNullOrEmpty(query.Search))
-            {
-                queryAble = queryAble.Where(o => o.PaymentType.Contains(query.Search) || o.ShippingType.Contains(query.Search));
-            }
+             // Apply search filter if provided
+             if (!string.IsNullOrEmpty(query.Search))
+             {
+                 queryAble = queryAble.Where(o => o.PaymentType.Contains(query.Search) || o.ShippingType.Contains(query.Search));
+             }
 
-            if (!string.IsNullOrEmpty(query.Status))
-            {
-                queryAble = queryAble.Where(o => o.State == query.Status);
-            }
+             if (!string.IsNullOrEmpty(query.Status))
+             {
+                 queryAble = queryAble.Where(o => o.State == query.Status);
+             }
 
-            var totalCount = await queryAble.CountAsync();
+             var totalCount = await queryAble.CountAsync();
 
-            // Apply sorting
-            queryAble = query.SortBy switch
-            {
-                "Id" => query.IsDecsending ? queryAble.OrderBy(o => o.Id) : queryAble.OrderByDescending(o => o.Id),
-                "Date" => query.IsDecsending ? queryAble.OrderBy(o => o.Date) : queryAble.OrderByDescending(o => o.Date),
-                _ => query.IsDecsending ? queryAble.OrderBy(o => o.Id) : queryAble.OrderByDescending(o => o.Id)
-            };
+             // Apply sorting
+             queryAble = query.SortBy switch
+             {
+                 "Id" => query.IsDecsending ? queryAble.OrderBy(o => o.Id) : queryAble.OrderByDescending(o => o.Id),
+                 "Date" => query.IsDecsending ? queryAble.OrderBy(o => o.Date) : queryAble.OrderByDescending(o => o.Date),
+                 _ => query.IsDecsending ? queryAble.OrderBy(o => o.Id) : queryAble.OrderByDescending(o => o.Id)
+             };
 
-            var orders = await queryAble
-                .Skip((query.PageNumber - 1) * query.PageSize)
-                .Take(query.PageSize)
-                .Select(o => o.OrderResponseMap()) // Reutiliza el método ToDto() del OrderMapper
-                .ToListAsync();
+             var orders = await queryAble
+                 .Skip((query.PageNumber - 1) * query.PageSize)
+                 .Take(query.PageSize)
+                 .Select(o => o.OrderResponseMap()) // Reutiliza el método ToDto() del OrderMapper
+                 .ToListAsync();
 
-            return new PaginatedResponse<OrderResponse>
-            {
-                Items = orders,
-                TotalCount = totalCount,
-                PageNumber = query.PageNumber,
-                PageSize = query.PageSize
-            };
-        }
+             return new PaginatedResponse<OrderResponse>
+             {
+                 Items = orders,
+                 TotalCount = totalCount,
+                 PageNumber = query.PageNumber,
+                 PageSize = query.PageSize
+             };
+         }
 
-        public async Task<PaginatedResponse<OrderResponse>> GetAllInProcessAsync(QueryObjectOrder query)
-        {
-            var queryAble = _context.Orders.AsQueryable();
+         public async Task<PaginatedResponse<OrderResponse>> GetAllInProcessAsync(QueryObjectOrder query)
+         {
+             var queryAble = _context.Orders.AsQueryable();
 
-            // Apply search filter if provided
-            if (!string.IsNullOrEmpty(query.Search))
-            {
-                queryAble = queryAble.Where(o => o.PaymentType.Contains(query.Search) || o.ShippingType.Contains(query.Search));
-            }
+             // Apply search filter if provided
+             if (!string.IsNullOrEmpty(query.Search))
+             {
+                 queryAble = queryAble.Where(o => o.PaymentType.Contains(query.Search) || o.ShippingType.Contains(query.Search));
+             }
 
-            // Apply status filter if provided
-            if (!string.IsNullOrEmpty(query.Status))
-            {
-                // If a status is provided, filter by it
-                queryAble = queryAble.Where(o => o.State == query.Status);
-            }
-            else
-            {
-                // If no status is provided, exclude "Finalizado" and "Cancelado"
-                queryAble = queryAble.Where(o => o.State != "Finalizado" && o.State != "Cancelado");
-            }
+             // Apply status filter if provided
+             if (!string.IsNullOrEmpty(query.Status))
+             {
+                 // If a status is provided, filter by it
+                 queryAble = queryAble.Where(o => o.State == query.Status);
+             }
+             else
+             {
+                 // If no status is provided, exclude "Finalizado" and "Cancelado"
+                 queryAble = queryAble.Where(o => o.State != "Finalizado" && o.State != "Cancelado");
+             }
 
-            var totalCount = await queryAble.CountAsync();
+             var totalCount = await queryAble.CountAsync();
 
-            // Apply sorting
-            queryAble = query.SortBy switch
-            {
-                "id" => query.IsDecsending ? queryAble.OrderBy(o => o.Id) : queryAble.OrderByDescending(o => o.Id),
-                "Fecha" => query.IsDecsending ? queryAble.OrderBy(o => o.Date) : queryAble.OrderByDescending(o => o.Date),
-                _ => query.IsDecsending ? queryAble.OrderBy(o => o.Id) : queryAble.OrderByDescending(o => o.Id)
-            };
+             // Apply sorting
+             queryAble = query.SortBy switch
+             {
+                 "id" => query.IsDecsending ? queryAble.OrderBy(o => o.Id) : queryAble.OrderByDescending(o => o.Id),
+                 "Fecha" => query.IsDecsending ? queryAble.OrderBy(o => o.Date) : queryAble.OrderByDescending(o => o.Date),
+                 _ => query.IsDecsending ? queryAble.OrderBy(o => o.Id) : queryAble.OrderByDescending(o => o.Id)
+             };
 
-            var orders = await queryAble
-                .Skip((query.PageNumber - 1) * query.PageSize)
-                .Take(query.PageSize)
-                .Select(o => o.OrderResponseMap()) // Reutiliza el método ToDto() del OrderMapper
-                .ToListAsync();
+             var orders = await queryAble
+                 .Skip((query.PageNumber - 1) * query.PageSize)
+                 .Take(query.PageSize)
+                 .Select(o => o.OrderResponseMap()) // Reutiliza el método ToDto() del OrderMapper
+                 .ToListAsync();
 
-            return new PaginatedResponse<OrderResponse>
-            {
-                Items = orders,
-                TotalCount = totalCount,
-                PageNumber = query.PageNumber,
-                PageSize = query.PageSize
-            };
-        }
-
+             return new PaginatedResponse<OrderResponse>
+             {
+                 Items = orders,
+                 TotalCount = totalCount,
+                 PageNumber = query.PageNumber,
+                 PageSize = query.PageSize
+             };
+         }
+  */
         public async Task<OrderResponse> GetByIdAsync(int id)
         {
             var order = await _context.Orders.FindAsync(id);
@@ -160,7 +160,7 @@ namespace ic_tienda_data.Repositories
             return orderDetail;
         }
 
-        public async Task<PaginatedResponse<OrderResponse>> GetOrdersByStatusAsync(QueryObjectOrderTwo query)
+        /* public async Task<PaginatedResponse<OrderResponse>> GetOrdersByStatusAsync(QueryObjectOrderTwo query)
         {
             var queryAble = _context.Orders.AsQueryable()
                 .Where(o => o.CustomerId == query.CustomerId && o.State == query.State);
@@ -193,7 +193,7 @@ namespace ic_tienda_data.Repositories
                 PageSize = query.PageSize
             };
         }
-
+ */
         public async Task<OrderResponse> UpdateAsync(int id, OrderRequest orderRequest)
         {
             var order = await _context.Orders.FindAsync(id);

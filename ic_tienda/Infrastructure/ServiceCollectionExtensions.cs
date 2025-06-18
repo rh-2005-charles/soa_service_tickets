@@ -27,7 +27,13 @@ namespace ic_tienda.Infrastructure
             services.AddScoped<ICustomerRepository, CustomerRepository>();
             services.AddScoped<IAuthCustomerService, AuthCustomerService>();
 
+            // using SOAP service
             services.AddScoped<CustomerAuthServiceSOAP>();
+
+            // Event
+            services.AddScoped<IEventRepository, EventRepository>();
+            services.AddScoped<IEventService, EventService>();
+            services.AddScoped<EventServiceSOAP>();
 
             return services;
         }

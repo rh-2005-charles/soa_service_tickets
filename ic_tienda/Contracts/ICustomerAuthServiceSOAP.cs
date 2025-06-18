@@ -4,7 +4,6 @@ using ic_tienda_business.Dtos.Responses;
 
 namespace ic_tienda.Contracts
 {
-    // [ServiceContract]
     [ServiceContract(Namespace = "http://tempuri.org/")]
     public interface ICustomerAuthServiceSOAP
     {

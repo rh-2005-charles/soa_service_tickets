@@ -1,4 +1,3 @@
-using System.Runtime.Serialization;
 using System.Text;
 using CoreWCF;
 using CoreWCF.Channels;
@@ -51,39 +50,46 @@ builder.Services.AddServiceModelServices()
 
 var app = builder.Build();
 
-// Middlewares básicos
 //app.UseMiddleware<ErrorMiddleware>();
 app.UseAuthentication();
 app.UseAuthorization();
 
 
-
 // Configuración del endpoint SOAP
 app.UseServiceModel(builder =>
 {
-    builder.AddService<CustomerAuthServiceSOAP>(serviceOptions =>
+    var eventBinding = new BasicHttpBinding
     {
-        // Habilitar detalles de error
-        serviceOptions.DebugBehavior.IncludeExceptionDetailInFaults = true;
-    });
-
-    var binding = new BasicHttpBinding
-    {
-        Security = new BasicHttpSecurity
+        MaxReceivedMessageSize = int.MaxValue,
+        ReaderQuotas = new System.Xml.XmlDictionaryReaderQuotas
         {
-            Mode = BasicHttpSecurityMode.None
+            MaxDepth = 32,
+            MaxArrayLength = int.MaxValue,
+            MaxStringContentLength = int.MaxValue
         },
-        MaxReceivedMessageSize = 65536 * 16,
-        ReaderQuotas = System.Xml.XmlDictionaryReaderQuotas.Max,
+        Security = new BasicHttpSecurity { Mode = BasicHttpSecurityMode.None },
         CloseTimeout = TimeSpan.FromMinutes(1),
         OpenTimeout = TimeSpan.FromMinutes(1),
         ReceiveTimeout = TimeSpan.FromMinutes(10),
         SendTimeout = TimeSpan.FromMinutes(1)
     };
 
+    builder.AddService<CustomerAuthServiceSOAP>(serviceOptions =>
+    {
+        // Habilitar detalles de error
+        serviceOptions.DebugBehavior.IncludeExceptionDetailInFaults = true;
+    });
+
     builder.AddServiceEndpoint<CustomerAuthServiceSOAP, ICustomerAuthServiceSOAP>(
-        new BasicHttpBinding(BasicHttpSecurityMode.None),
-        "/CustomerAuthService.svc");
+       eventBinding, "/CustomerAuthService.svc");
+
+    builder.AddService<EventServiceSOAP>(serviceOptions =>
+    {
+        serviceOptions.DebugBehavior.IncludeExceptionDetailInFaults = true;
+    });
+
+    builder.AddServiceEndpoint<EventServiceSOAP, IEventServiceSOAP>(
+       eventBinding, "/EventService.svc");
 
     // Habilitar metadata WSDL
     var serviceMetadataBehavior = app.Services.GetRequiredService<ServiceMetadataBehavior>();
