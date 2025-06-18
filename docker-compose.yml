@@ -1,0 +1,24 @@
+services:
+  mysql:
+    image: mysql:latest
+    container_name: mysql-container
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456789 # Contraseña del usuario root
+      MYSQL_DATABASE: FourBdPolleria # Nombre de la base de datos inicial
+    ports:
+      - "3306:3306" # Expone el puerto 3306
+    volumes:
+      - mysql-data:/var/lib/mysql # Almacena los datos en un volumen persistente
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: phpmyadmin-container
+    environment:
+      PMA_HOST: mysql # Nombre del servicio MySQL
+      PMA_USER: root
+      PMA_PASSWORD: 123456789
+    ports:
+      - "8080:80" # Acceso a phpMyAdmin en el puerto 8080
+
+volumes:
+  mysql-data:
