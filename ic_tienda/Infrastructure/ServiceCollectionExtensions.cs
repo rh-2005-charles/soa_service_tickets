@@ -35,6 +35,11 @@ namespace ic_tienda.Infrastructure
             services.AddScoped<IEventService, EventService>();
             services.AddScoped<EventServiceSOAP>();
 
+            // TicketType
+            services.AddScoped<ITicketTypeRepository, TicketTypeRepository>();
+            services.AddScoped<ITicketTypeService, TicketTypeService>();
+            services.AddScoped<TicketTypeServiceSOAP>();
+
             return services;
         }
     }

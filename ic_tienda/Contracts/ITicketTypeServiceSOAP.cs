@@ -6,22 +6,21 @@ using ic_tienda_business.Helpers;
 namespace ic_tienda.Contracts
 {
     [ServiceContract(Namespace = "http://tempuri.org/")]
-    public interface IEventServiceSOAP
+    public interface ITicketTypeServiceSOAP
     {
         [OperationContract]
-        EventPaginatedResponse GetAll(QueryObject query);
+        TicketTypePaginatedResponse GetAll(QueryObject query);
 
         [OperationContract]
-        EventResponse GetById(int id);
+        TicketTypeResponse GetById(int id);
 
         [OperationContract]
-        EventResponse Add(EventRequest request);
+        TicketTypeResponse Add(TicketTypeRequest request);
 
         [OperationContract]
-        EventResponse Update(int id, EventRequest request);
+        TicketTypeResponse Update(int id, TicketTypeRequest request);
 
         [OperationContract]
         void Delete(int id);
-
     }
 }

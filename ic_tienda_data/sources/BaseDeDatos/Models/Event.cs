@@ -13,5 +13,6 @@ namespace ic_tienda_data.sources.BaseDeDatos.Models
         public string ImageUrl { get; set; }
         public string Status { get; set; }
 
+        public ICollection<TicketType> TicketTypes { get; set; } = new List<TicketType>();
     }
 }

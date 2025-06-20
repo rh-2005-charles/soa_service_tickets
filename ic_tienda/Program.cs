@@ -91,6 +91,14 @@ app.UseServiceModel(builder =>
     builder.AddServiceEndpoint<EventServiceSOAP, IEventServiceSOAP>(
        eventBinding, "/EventService.svc");
 
+    builder.AddService<TicketTypeServiceSOAP>(serviceOptions =>
+    {
+        serviceOptions.DebugBehavior.IncludeExceptionDetailInFaults = true;
+    });
+
+    builder.AddServiceEndpoint<TicketTypeServiceSOAP, ITicketTypeServiceSOAP>(
+       eventBinding, "/TicketTypeService.svc");
+
     // Habilitar metadata WSDL
     var serviceMetadataBehavior = app.Services.GetRequiredService<ServiceMetadataBehavior>();
     serviceMetadataBehavior.HttpGetEnabled = true;

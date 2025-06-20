@@ -17,7 +17,6 @@ namespace ic_tienda_business.Helpers
 
         [DataMember(Order = 5)]
         public int TotalPages { get; set; }
-        // public int TotalPages => (int)Math.Ceiling((double)TotalCount / PageSize) ; 
     }
 
 
@@ -33,5 +32,12 @@ namespace ic_tienda_business.Helpers
     {
         [DataMember(Order = 1)]
         public List<EventResponse> Events { get; set; } = new List<EventResponse>();
+    }
+
+    [DataContract(Namespace = "http://tempuri.org/")]
+    public class TicketTypePaginatedResponse : PaginationBase
+    {
+        [DataMember(Order = 1)]
+        public List<TicketTypeResponse> Events { get; set; } = new List<TicketTypeResponse>();
     }
 }

@@ -8,28 +8,27 @@ using ic_tienda_business.IServices;
 namespace ic_tienda.Services
 {
     [ServiceBehavior(
-        Namespace = "http://tempuri.org/",
-        InstanceContextMode = InstanceContextMode.PerCall,
-        IncludeExceptionDetailInFaults = true
-    )]
-    public class EventServiceSOAP : IEventServiceSOAP
+       Namespace = "http://tempuri.org/",
+       InstanceContextMode = InstanceContextMode.PerCall,
+       IncludeExceptionDetailInFaults = true
+   )]
+    public class TicketTypeServiceSOAP : ITicketTypeServiceSOAP
     {
-        private readonly IEventService _eventService;
-
-        public EventServiceSOAP(IEventService eventService)
+        private readonly ITicketTypeService _service;
+        public TicketTypeServiceSOAP(ITicketTypeService service)
         {
-            _eventService = eventService;
+            _service = service;
         }
 
-        public EventResponse Add(EventRequest request)
+        public TicketTypeResponse Add(TicketTypeRequest request)
         {
             try
             {
-                return _eventService.AddAsync(request).GetAwaiter().GetResult();
+                return _service.AddAsync(request).GetAwaiter().GetResult();
             }
             catch (Exception ex)
             {
-                throw new FaultException($"Error al crear el evento: {ex.Message}");
+                throw new FaultException($"Error al crear el ticket: {ex.Message}");
             }
         }
 
@@ -37,19 +36,19 @@ namespace ic_tienda.Services
         {
             try
             {
-                _eventService.DeleteAsync(id).GetAwaiter().GetResult();
+                _service.DeleteAsync(id).GetAwaiter().GetResult();
             }
             catch (Exception ex)
             {
-                throw new FaultException($"Error al eliminar el evento: {ex.Message}");
+                throw new FaultException($"Error al eliminar el ticket: {ex.Message}");
             }
         }
 
-        public EventPaginatedResponse GetAll(QueryObject query)
+        public TicketTypePaginatedResponse GetAll(QueryObject query)
         {
-            var result = _eventService.GetAllAsync(query).GetAwaiter().GetResult();
+            var result = _service.GetAllAsync(query).GetAwaiter().GetResult();
 
-            return new EventPaginatedResponse
+            return new TicketTypePaginatedResponse
             {
                 Events = result.Items,
                 TotalCount = result.TotalCount,
@@ -59,11 +58,11 @@ namespace ic_tienda.Services
             };
         }
 
-        public EventResponse GetById(int id)
+        public TicketTypeResponse GetById(int id)
         {
             try
             {
-                return _eventService.GetByIdAsync(id).GetAwaiter().GetResult();
+                return _service.GetByIdAsync(id).GetAwaiter().GetResult();
             }
             catch
             {
@@ -71,11 +70,11 @@ namespace ic_tienda.Services
             }
         }
 
-        public EventResponse Update(int id, EventRequest request)
+        public TicketTypeResponse Update(int id, TicketTypeRequest request)
         {
             try
             {
-                return _eventService.UpdateAsync(id, request).GetAwaiter().GetResult();
+                return _service.UpdateAsync(id, request).GetAwaiter().GetResult();
             }
             catch (Exception ex)
             {

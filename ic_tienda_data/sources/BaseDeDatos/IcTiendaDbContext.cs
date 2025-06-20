@@ -68,6 +68,12 @@ namespace ic_tienda_data.sources.BaseDeDatos
             //        .IsRequired()
             //        .OnDelete(DeleteBehavior.Restrict);
 
+            modelBuilder.Entity<Event>()
+                .HasMany(t => t.TicketTypes)
+                .WithOne(t => t.Event)
+                .HasForeignKey(t => t.EventId)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Restrict);
 
             // Seeders
             modelBuilder.Seed();
@@ -77,8 +83,7 @@ namespace ic_tienda_data.sources.BaseDeDatos
 
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Event> Events { get; set; }
-
-
+        public DbSet<TicketType> TicketTypes { get; set; }
 
 
         public virtual DbSet<Category> Categories { get; set; }
