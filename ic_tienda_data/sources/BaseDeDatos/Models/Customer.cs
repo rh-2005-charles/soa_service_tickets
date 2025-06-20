@@ -1,8 +1,4 @@
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ic_tienda_data.sources.BaseDeDatos.Models
 {
@@ -25,5 +21,9 @@ namespace ic_tienda_data.sources.BaseDeDatos.Models
 
         [MaxLength(20)]
         public string? Phone { get; set; }
+
+        public ICollection<Order> Orders { get; set; } = new List<Order>();
+        public ICollection<Ticket> Tickets { get; set; } = new List<Ticket>();
+
     }
 }

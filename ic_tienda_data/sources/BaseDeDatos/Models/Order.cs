@@ -1,70 +1,34 @@
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
-using ic_tienda_data.sources.BaseDeDatos.Models.ActivityLogs;
 using Microsoft.EntityFrameworkCore;
 
 namespace ic_tienda_data.sources.BaseDeDatos.Models
 {
-    [Table("order")]
     public class Order
     {
         [Key]
-        [Column("id")]
         public int Id { get; set; }
 
-        [Column("date")]
-        public DateTime Date { get; set; }
+        [Required]
+        public int CustomerId { get; set; }
+        public Customer Customer { get; set; }
 
-        [Column("paymentType")]
-        public string? PaymentType { get; set; }
+        [Required]
+        public DateTime OrderDate { get; set; }
 
-        [Column("shippingType")] //Tipo_Envio
-        public string? ShippingType { get; set; }
-
-        [Column("receiptType")] //Tipo_Recibo
-        public string? ReceiptType { get; set; }
-
-        [Column("priceShipping")] // Precio_Envio
-        [Precision(10, 2)]
-        public decimal? PriceShipping { get; set; }
-
-        [Column("totalAmount")]
-        [Precision(10, 2)] // Monto_Total
+        [Required, Range(0, 1000000), Precision(10, 2)]
         public decimal TotalAmount { get; set; }
 
-        [Column("customerId")]
-        public int CustomerId { get; set; }//ClientId
+        [Required, MaxLength(50)]
+        public string Status { get; set; }
 
-        [Column("state")]
-        public string? State { get; set; }
+        [Required, MaxLength(50)]
+        public string PaymentMethod { get; set; }
 
-        [Column("messageStatus")] // Mensage_Estado
-        public string? MessageStatus { get; set; }
-        //opcional, solo si el tipo de envio es delivery
+        [Required]
+        public int TransactionId { get; set; }
 
-        [Column("location")]
-        public string? Location { get; set; }
+        public ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
 
-        [Column("reference")]
-        public string? Reference { get; set; }
 
-        [Column("lat")]
-        public string? Lat { get; set; }
-
-        [Column("lng")]
-        public string? Lng { get; set; }
-
-        [Column("img_url")]
-        public string? ImgUrl { get; set; } //= "default.png";
-
-        // Navigation property for order details
-        //  public Customer? Customer { get; set; }
-        //  public ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
-        //  public Payment? Payment { get; set; }
-        //  public Receipt? Receipt { get; set; }
     }
 }

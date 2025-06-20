@@ -23,6 +23,20 @@ builder.Services.AddDbContext<IcTiendaDbContext>(options =>
         builder.Configuration.GetConnectionString("DbCloudMySQL"),
         ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DbCloudMySQL"))));
 
+// Leer orígenes permitidos desde appsettings.json
+var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>();
+
+// Configuración de CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend", policy =>
+    {
+        policy.WithOrigins(allowedOrigins) // Frontend URL
+              .AllowAnyMethod()
+              .AllowAnyHeader();
+    });
+});
+
 // Configuración JWT
 var key = Encoding.ASCII.GetBytes(builder.Configuration["Jwt:Key"] ?? throw new InvalidOperationException("JWT Key is not configured"));
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -74,30 +88,54 @@ app.UseServiceModel(builder =>
         SendTimeout = TimeSpan.FromMinutes(1)
     };
 
-    builder.AddService<CustomerAuthServiceSOAP>(serviceOptions =>
+    // CustomerAuth
+    builder.AddService<CustomerAuthServiceSOAP>(sOpt =>
     {
-        // Habilitar detalles de error
-        serviceOptions.DebugBehavior.IncludeExceptionDetailInFaults = true;
+        sOpt.DebugBehavior.IncludeExceptionDetailInFaults = true;
     });
 
-    builder.AddServiceEndpoint<CustomerAuthServiceSOAP, ICustomerAuthServiceSOAP>(
-       eventBinding, "/CustomerAuthService.svc");
+    builder.AddServiceEndpoint<CustomerAuthServiceSOAP, ICustomerAuthServiceSOAP>(eventBinding, "/CustomerAuthService.svc");
 
-    builder.AddService<EventServiceSOAP>(serviceOptions =>
+    // Event
+    builder.AddService<EventServiceSOAP>(sOpt =>
     {
-        serviceOptions.DebugBehavior.IncludeExceptionDetailInFaults = true;
+        sOpt.DebugBehavior.IncludeExceptionDetailInFaults = true;
     });
 
-    builder.AddServiceEndpoint<EventServiceSOAP, IEventServiceSOAP>(
-       eventBinding, "/EventService.svc");
+    builder.AddServiceEndpoint<EventServiceSOAP, IEventServiceSOAP>(eventBinding, "/EventService.svc");
 
-    builder.AddService<TicketTypeServiceSOAP>(serviceOptions =>
+    // TycketType
+    builder.AddService<TicketTypeServiceSOAP>(sOpt =>
     {
-        serviceOptions.DebugBehavior.IncludeExceptionDetailInFaults = true;
+        sOpt.DebugBehavior.IncludeExceptionDetailInFaults = true;
     });
 
-    builder.AddServiceEndpoint<TicketTypeServiceSOAP, ITicketTypeServiceSOAP>(
-       eventBinding, "/TicketTypeService.svc");
+    builder.AddServiceEndpoint<TicketTypeServiceSOAP, ITicketTypeServiceSOAP>(eventBinding, "/TicketTypeService.svc");
+
+    // Tycket
+    builder.AddService<TicketServiceSOAP>(sOpt =>
+    {
+        sOpt.DebugBehavior.IncludeExceptionDetailInFaults = true;
+    });
+
+    builder.AddServiceEndpoint<TicketServiceSOAP, ITicketServiceSOAP>(eventBinding, "/TicketService.svc");
+
+    // Order
+    builder.AddService<OrderServiceSOAP>(sOpt =>
+    {
+        sOpt.DebugBehavior.IncludeExceptionDetailInFaults = true;
+    });
+
+    builder.AddServiceEndpoint<OrderServiceSOAP, IOrderServiceSOAP>(eventBinding, "/OrderService.svc");
+
+    // OrderDetail
+    builder.AddService<OrderDetailServiceSOAP>(sOpt =>
+    {
+        sOpt.DebugBehavior.IncludeExceptionDetailInFaults = true;
+    });
+
+    builder.AddServiceEndpoint<OrderDetailServiceSOAP, IOrderDetailServiceSOAP>(eventBinding, "/OrderDetailService.svc");
+
 
     // Habilitar metadata WSDL
     var serviceMetadataBehavior = app.Services.GetRequiredService<ServiceMetadataBehavior>();

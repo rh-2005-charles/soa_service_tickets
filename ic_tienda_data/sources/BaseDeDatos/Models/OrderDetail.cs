@@ -1,51 +1,29 @@
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
-using ic_tienda_data.sources.BaseDeDatos.Models.ActivityLogs;
 using Microsoft.EntityFrameworkCore;
 
 namespace ic_tienda_data.sources.BaseDeDatos.Models
 {
-    [Table("orderDetail")]
-    public class OrderDetail //: AuditModel
+    public class OrderDetail
     {
         [Key]
-        [Column("id")]
         public int Id { get; set; }
 
-        [Column("orderId")]
+        [Required]
         public int OrderId { get; set; }
+        public Order Order { get; set; }
 
-        [Column("productId")]
-        public int ProductId { get; set; }
+        [Required]
+        public int TicketTypeId { get; set; }
+        public TicketType TicketType { get; set; }
 
-        [Column("productName")]
-        public string? ProductName { get; set; }
 
-        [Column("comment")]
-        public string? Comment { get; set; }
+        [Required, Range(0, 1000000)]
+        public int Quantity { get; set; }
 
-        [Column("productQuantity")]
-        public int ProductQuantity { get; set; }
-
-        [Column("productPrice")]
-        [Precision(10, 2)]
-        [Range(0.01, double.MaxValue, ErrorMessage = "The price must be greater than 0.")]
-        public decimal ProductPrice { get; set; }
-
-        [Column("subTotal")]
-        [Precision(10, 2)]
-        [Range(0.01, double.MaxValue, ErrorMessage = "The price must be greater than 0.")]
+        [Required, Range(0, 1000000), Precision(10, 2)]
         public decimal SubTotal { get; set; }
 
-        [Column("options")]
-        public string? Options { get; set; } 
+        public ICollection<Ticket> Tickets { get; set; } = new List<Ticket>();
 
-        //public Order? Order { get; set; } // Navigation property
-        //
-        //public Product? Product { get; set; } // Navigation property
     }
 }

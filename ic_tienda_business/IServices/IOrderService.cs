@@ -2,9 +2,9 @@ using ic_tienda_business.Dtos.Requests;
 using ic_tienda_business.Dtos.Responses;
 using ic_tienda_business.Helpers;
 
-namespace ic_tienda_business.IRepositories
+namespace ic_tienda_business.IServices
 {
-    public interface IOrderRepository
+    public interface IOrderService
     {
         Task<PaginatedResponse<OrderResponse>> GetAllAsync(QueryObject query);
         Task<OrderResponse> GetByIdAsync(int id);

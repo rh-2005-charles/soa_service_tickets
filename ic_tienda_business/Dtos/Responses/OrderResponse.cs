@@ -1,26 +1,29 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Runtime.Serialization;
 
 namespace ic_tienda_business.Dtos.Responses
 {
+    [DataContract(Namespace = "http://tempuri.org/")]
     public class OrderResponse
     {
+        [DataMember(Order = 1)]
         public int Id { get; set; }
-        public DateTime Date { get; set; }
-        public string? PaymentType { get; set; }
-        public string? ShippingType { get; set; }
-        public string? ReceiptType { get; set; }
-        public decimal? PriceShipping { get; set; }
-        public decimal TotalAmount { get; set; }
+
+        [DataMember(Order = 2)]
         public int CustomerId { get; set; }
-        public string? State { get; set; }
-        public string? MessageStatus { get; set; }
-        public string? Location { get; set; }
-        public string? Reference { get; set; }
-        public string? Lat { get; set; }
-        public string? Lng { get; set; }
-        public string? ImgPath { get; set; }
+
+        [DataMember(Order = 3)]
+        public DateTime OrderDate { get; set; }
+
+        [DataMember(Order = 4)]
+        public decimal TotalAmount { get; set; }
+
+        [DataMember(Order = 5)]
+        public string Status { get; set; }
+
+        [DataMember(Order = 6)]
+        public string PaymentMethod { get; set; }
+
+        [DataMember(Order = 7)]
+        public int TransactionId { get; set; }
     }
 }

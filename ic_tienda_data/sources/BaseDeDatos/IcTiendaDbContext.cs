@@ -61,17 +61,59 @@ namespace ic_tienda_data.sources.BaseDeDatos
         {
             base.OnModelCreating(modelBuilder);
             //Relacion de 1 a muchos de Product y Categoria
-            //modelBuilder.Entity<Category>()
-            //        .HasMany(p => p.Products)
-            //        .WithOne(p => p.Category)
-            //        .HasForeignKey(p => p.CategoryId)
-            //        .IsRequired()
-            //        .OnDelete(DeleteBehavior.Restrict);
-
             modelBuilder.Entity<Event>()
                 .HasMany(t => t.TicketTypes)
                 .WithOne(t => t.Event)
                 .HasForeignKey(t => t.EventId)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Customer>()
+                .HasMany(c => c.Orders)
+                .WithOne(c => c.Customer)
+                .HasForeignKey(c => c.CustomerId)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Order>()
+                .HasMany(c => c.OrderDetails)
+                .WithOne(c => c.Order)
+                .HasForeignKey(c => c.OrderId)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<TicketType>()
+                .HasMany(c => c.OrderDetails)
+                .WithOne(c => c.TicketType)
+                .HasForeignKey(c => c.TicketTypeId)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Customer>()
+                .HasMany(t => t.Tickets)
+                .WithOne(t => t.Customer)
+                .HasForeignKey(t => t.CustomerId)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Event>()
+                .HasMany(t => t.Tickets)
+                .WithOne(t => t.Event)
+                .HasForeignKey(t => t.EventId)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<OrderDetail>()
+                .HasMany(t => t.Tickets)
+                .WithOne(t => t.OrderDetail)
+                .HasForeignKey(t => t.OrderDetailId)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<TicketType>()
+                .HasMany(t => t.Tickets)
+                .WithOne(t => t.TicketType)
+                .HasForeignKey(t => t.TicketTypeId)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Restrict);
 
@@ -84,11 +126,11 @@ namespace ic_tienda_data.sources.BaseDeDatos
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Event> Events { get; set; }
         public DbSet<TicketType> TicketTypes { get; set; }
-
-
-        public virtual DbSet<Category> Categories { get; set; }
-        public DbSet<OrderDetail> OrderDetails { get; set; }
         public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderDetail> OrderDetails { get; set; }
+        public DbSet<Ticket> Tickets { get; set; }
+
+
 
 
         // Tabla de errores.

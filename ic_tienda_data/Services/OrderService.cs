@@ -6,15 +6,15 @@ using ic_tienda_business.IServices;
 
 namespace ic_tienda_data.Services
 {
-    public class OrderDetailService : IOrderDetailService
+    public class OrderService : IOrderService
     {
-        private readonly IOrderDetailRepository _repository;
-        public OrderDetailService(IOrderDetailRepository repository)
+        private readonly IOrderRepository _repository;
+        public OrderService(IOrderRepository repository)
         {
             _repository = repository;
         }
 
-        public async Task<OrderDetailResponse> AddAsync(OrderDetailRequest request)
+        public async Task<OrderResponse> AddAsync(OrderRequest request)
         {
             return await _repository.AddAsync(request);
         }
@@ -24,17 +24,17 @@ namespace ic_tienda_data.Services
             await _repository.DeleteAsync(id);
         }
 
-        public async Task<PaginatedResponse<OrderDetailResponse>> GetAllAsync(QueryObject query)
+        public async Task<PaginatedResponse<OrderResponse>> GetAllAsync(QueryObject query)
         {
             return await _repository.GetAllAsync(query);
         }
 
-        public async Task<OrderDetailResponse> GetByIdAsync(int id)
+        public async Task<OrderResponse> GetByIdAsync(int id)
         {
             return await _repository.GetByIdAsync(id);
         }
 
-        public async Task<OrderDetailResponse> UpdateAsync(int id, OrderDetailRequest request)
+        public async Task<OrderResponse> UpdateAsync(int id, OrderRequest request)
         {
             return await _repository.UpdateAsync(id, request);
         }

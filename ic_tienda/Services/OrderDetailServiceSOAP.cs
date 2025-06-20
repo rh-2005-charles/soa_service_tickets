@@ -8,15 +8,15 @@ using ic_tienda_business.IServices;
 namespace ic_tienda.Services
 {
     [ServiceBehavior(Namespace = "http://tempuri.org/")]
-    public class TicketTypeServiceSOAP : ITicketTypeServiceSOAP
+    public class OrderDetailServiceSOAP : IOrderDetailServiceSOAP
     {
-        private readonly ITicketTypeService _service;
-        public TicketTypeServiceSOAP(ITicketTypeService service)
+        private readonly IOrderDetailService _service;
+        public OrderDetailServiceSOAP(IOrderDetailService service)
         {
             _service = service;
         }
 
-        public TicketTypeResponse Add(TicketTypeRequest request)
+        public OrderDetailResponse Add(OrderDetailRequest request)
         {
             try
             {
@@ -24,7 +24,7 @@ namespace ic_tienda.Services
             }
             catch (Exception ex)
             {
-                throw new FaultException($"Error al crear el ticket: {ex.Message}");
+                throw new FaultException($"Error al crear: {ex.Message}");
             }
         }
 
@@ -36,15 +36,15 @@ namespace ic_tienda.Services
             }
             catch (Exception ex)
             {
-                throw new FaultException($"Error al eliminar el ticket: {ex.Message}");
+                throw new FaultException($"Error al eliminar: {ex.Message}");
             }
         }
 
-        public TicketTypePaginatedResponse GetAll(QueryObject query)
+        public OrderDetailPaginatedResponse GetAll(QueryObject query)
         {
             var result = _service.GetAllAsync(query).GetAwaiter().GetResult();
 
-            return new TicketTypePaginatedResponse
+            return new OrderDetailPaginatedResponse
             {
                 Items = result.Items,
                 TotalCount = result.TotalCount,
@@ -54,7 +54,7 @@ namespace ic_tienda.Services
             };
         }
 
-        public TicketTypeResponse GetById(int id)
+        public OrderDetailResponse GetById(int id)
         {
             try
             {
@@ -62,11 +62,11 @@ namespace ic_tienda.Services
             }
             catch
             {
-                throw new FaultException($"Evento con ID {id} no encontrado.");
+                throw new FaultException($"Item con ID {id} no encontrado.");
             }
         }
 
-        public TicketTypeResponse Update(int id, TicketTypeRequest request)
+        public OrderDetailResponse Update(int id, OrderDetailRequest request)
         {
             try
             {
@@ -74,7 +74,7 @@ namespace ic_tienda.Services
             }
             catch (Exception ex)
             {
-                throw new FaultException($"Error al actualizar el evento: {ex.Message}");
+                throw new FaultException($"Error al actualizar: {ex.Message}");
             }
         }
     }

@@ -4,65 +4,43 @@ using ic_tienda_data.sources.BaseDeDatos.Models;
 
 namespace ic_tienda_data.Mapper
 {
-    public static class OrderMapper
+    public class OrderMapper
     {
-        public static OrderResponse OrderResponseMap(this Order order)
-        {
-            return new OrderResponse
-            {
-                Id = order.Id,
-                Date = order.Date,
-                PaymentType = order.PaymentType,
-                ShippingType = order.ShippingType,
-                ReceiptType = order.ReceiptType,
-                PriceShipping = order.PriceShipping,
-                TotalAmount = order.TotalAmount,
-                CustomerId = order.CustomerId,
-                State = order.State,
-                MessageStatus = order.MessageStatus,
-                Location = order.Location,
-                Reference = order.Reference,
-                Lat = order.Lat,
-                Lng = order.Lng,
-                ImgPath = order.ImgUrl
-            };
-        }
-
-        public static Order ToEntity(OrderRequest orderRequest)
+        public static Order ToEntity(OrderRequest request)
         {
             return new Order
             {
-                Date = orderRequest.Date,
-                PaymentType = orderRequest.PaymentType,
-                ShippingType = orderRequest.ShippingType,
-                ReceiptType = orderRequest.ReceiptType,
-                PriceShipping = orderRequest.PriceShipping,
-                TotalAmount = orderRequest.TotalAmount,
-                CustomerId = orderRequest.CustomerId,
-                State = orderRequest.State,
-                MessageStatus = orderRequest.MessageStatus,
-                Location = orderRequest.Location,
-                Reference = orderRequest.Reference,
-                Lat = orderRequest.Lat,
-                Lng = orderRequest.Lng,
-                //ImgUrl = orderRequest.ImgPath
+                CustomerId = request.CustomerId,
+                OrderDate = request.OrderDate,
+                TotalAmount = request.TotalAmount,
+                Status = request.Status,
+                PaymentMethod = request.PaymentMethod,
+                TransactionId = request.TransactionId
             };
         }
 
-        public static void UpdateEntity(Order order, OrderRequest orderRequest)
+        public static OrderResponse ToResponse(Order entity)
         {
-            order.Date = orderRequest.Date;
-            order.PaymentType = orderRequest.PaymentType;
-            order.ShippingType = orderRequest.ShippingType;
-            order.ReceiptType = orderRequest.ReceiptType;
-            order.PriceShipping = orderRequest.PriceShipping;
-            order.TotalAmount = orderRequest.TotalAmount;
-            order.State = orderRequest.State;
-            order.MessageStatus = orderRequest.MessageStatus;
-            order.Location = orderRequest.Location;
-            order.Reference = orderRequest.Reference;
-            order.Lat = orderRequest.Lat;
-            order.Lng = orderRequest.Lng;
+            return new OrderResponse
+            {
+                Id = entity.Id,
+                CustomerId = entity.CustomerId,
+                OrderDate = entity.OrderDate,
+                TotalAmount = entity.TotalAmount,
+                Status = entity.Status,
+                PaymentMethod = entity.PaymentMethod,
+                TransactionId = entity.TransactionId
+            };
+        }
+
+        public static void UpdateEntity(Order entity, OrderRequest request)
+        {
+            entity.CustomerId = request.CustomerId;
+            entity.OrderDate = request.OrderDate;
+            entity.TotalAmount = request.TotalAmount;
+            entity.Status = request.Status;
+            entity.PaymentMethod = request.PaymentMethod;
+            entity.TransactionId = request.TransactionId;
         }
     }
 }

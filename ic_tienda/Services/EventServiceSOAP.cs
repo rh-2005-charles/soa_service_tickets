@@ -7,11 +7,13 @@ using ic_tienda_business.IServices;
 
 namespace ic_tienda.Services
 {
-    [ServiceBehavior(
+    /* [ServiceBehavior(
         Namespace = "http://tempuri.org/",
         InstanceContextMode = InstanceContextMode.PerCall,
         IncludeExceptionDetailInFaults = true
-    )]
+    )] */
+
+    [ServiceBehavior(Namespace = "http://tempuri.org/")]
     public class EventServiceSOAP : IEventServiceSOAP
     {
         private readonly IEventService _eventService;
@@ -51,7 +53,7 @@ namespace ic_tienda.Services
 
             return new EventPaginatedResponse
             {
-                Events = result.Items,
+                Items = result.Items,
                 TotalCount = result.TotalCount,
                 PageNumber = result.PageNumber,
                 PageSize = result.PageSize,

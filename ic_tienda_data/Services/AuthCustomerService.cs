@@ -23,7 +23,7 @@ namespace ic_tienda_data.Services
         public async Task<CustomerAuthResponse> Login(CustomerLoginRequest request)
         {
             // Agrega logs para diagnóstico
-            Console.WriteLine($"Intento de login con email: {request.Email}");
+            // Console.WriteLine($"Intento de login con email: {request.Email}");
 
             var customer = await _customerRepository.GetByEmail(request.Email);
 

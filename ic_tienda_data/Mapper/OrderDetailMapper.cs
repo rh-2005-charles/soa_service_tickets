@@ -1,44 +1,40 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using ic_tienda_business.Dtos.Requests;
 using ic_tienda_business.Dtos.Responses;
 using ic_tienda_data.sources.BaseDeDatos.Models;
 
 namespace ic_tienda_data.Mapper
 {
-    public static class OrderDetailMapper
+    public class OrderDetailMapper
     {
-        public static OrderDetailResponse OrderDetailResponseMap(this OrderDetail orderDetail)
-        {
-            return new OrderDetailResponse
-            {
-                Id = orderDetail.Id,
-                OrderId = orderDetail.OrderId,
-                ProductId = orderDetail.ProductId,
-                ProductName = orderDetail.ProductName,
-                Comment = orderDetail.Comment,
-                ProductQuantity = orderDetail.ProductQuantity,
-                ProductPrice = orderDetail.ProductPrice,
-                SubTotal = orderDetail.SubTotal,
-                Options = orderDetail.Options,
-            };
-        }
-
-        public static OrderDetail ToOrderDetailMap(this OrderDetailRequest orderDetailRequest)
+        public static OrderDetail ToEntity(OrderDetailRequest request)
         {
             return new OrderDetail
             {
-                OrderId = orderDetailRequest.OrderId,
-                ProductId = orderDetailRequest.ProductId,
-                ProductName = orderDetailRequest.ProductName,
-                Comment = orderDetailRequest.Comment,
-                ProductQuantity = orderDetailRequest.ProductQuantity,
-                ProductPrice = orderDetailRequest.ProductPrice,
-                SubTotal = orderDetailRequest.SubTotal,
-                Options = orderDetailRequest.Options
+                OrderId = request.OrderId,
+                TicketTypeId = request.TicketTypeId,
+                Quantity = request.Quantity,
+                SubTotal = request.SubTotal,
             };
+        }
+
+        public static OrderDetailResponse ToResponse(OrderDetail entity)
+        {
+            return new OrderDetailResponse
+            {
+                Id = entity.Id,
+                OrderId = entity.OrderId,
+                TicketTypeId = entity.TicketTypeId,
+                Quantity = entity.Quantity,
+                SubTotal = entity.SubTotal,
+            };
+        }
+
+        public static void UpdateEntity(OrderDetail entity, OrderDetailRequest request)
+        {
+            entity.OrderId = request.OrderId;
+            entity.TicketTypeId = request.TicketTypeId;
+            entity.Quantity = request.Quantity;
+            entity.SubTotal = request.SubTotal;
         }
     }
 }

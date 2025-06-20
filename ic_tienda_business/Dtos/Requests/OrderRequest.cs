@@ -1,26 +1,26 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+using System.Runtime.Serialization;
 
 namespace ic_tienda_business.Dtos.Requests
 {
+    [DataContract(Namespace = "http://tempuri.org/")]
     public class OrderRequest
     {
-        public DateTime Date { get; set; }
-        public string? PaymentType { get; set; }
-        public string? ShippingType { get; set; }
-        public string? ReceiptType { get; set; }
-        public decimal? PriceShipping { get; set; }
-        public decimal TotalAmount { get; set; }
+        [DataMember(Order = 1)]
         public int CustomerId { get; set; }
-        public string? State { get; set; }
-        public string? MessageStatus { get; set; }
-        public string? Location { get; set; }
-        public string? Reference { get; set; }
-        public string? Lat { get; set; }
-        public string? Lng { get; set; }
-        public IFormFile? ImgPath { get; set; }
+
+        [DataMember(Order = 2)]
+        public DateTime OrderDate { get; set; }
+
+        [DataMember(Order = 3)]
+        public decimal TotalAmount { get; set; }
+
+        [DataMember(Order = 4)]
+        public string Status { get; set; }
+
+        [DataMember(Order = 5)]
+        public string PaymentMethod { get; set; }
+
+        [DataMember(Order = 6)]
+        public int TransactionId { get; set; }
     }
 }

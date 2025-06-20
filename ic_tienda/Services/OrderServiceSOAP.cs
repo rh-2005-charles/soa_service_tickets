@@ -8,15 +8,15 @@ using ic_tienda_business.IServices;
 namespace ic_tienda.Services
 {
     [ServiceBehavior(Namespace = "http://tempuri.org/")]
-    public class TicketTypeServiceSOAP : ITicketTypeServiceSOAP
+    public class OrderServiceSOAP : IOrderServiceSOAP
     {
-        private readonly ITicketTypeService _service;
-        public TicketTypeServiceSOAP(ITicketTypeService service)
+        private readonly IOrderService _service;
+        public OrderServiceSOAP(IOrderService service)
         {
             _service = service;
         }
 
-        public TicketTypeResponse Add(TicketTypeRequest request)
+        public OrderResponse Add(OrderRequest request)
         {
             try
             {
@@ -40,11 +40,11 @@ namespace ic_tienda.Services
             }
         }
 
-        public TicketTypePaginatedResponse GetAll(QueryObject query)
+        public OrderPaginatedResponse GetAll(QueryObject query)
         {
             var result = _service.GetAllAsync(query).GetAwaiter().GetResult();
 
-            return new TicketTypePaginatedResponse
+            return new OrderPaginatedResponse
             {
                 Items = result.Items,
                 TotalCount = result.TotalCount,
@@ -54,7 +54,7 @@ namespace ic_tienda.Services
             };
         }
 
-        public TicketTypeResponse GetById(int id)
+        public OrderResponse GetById(int id)
         {
             try
             {
@@ -66,7 +66,7 @@ namespace ic_tienda.Services
             }
         }
 
-        public TicketTypeResponse Update(int id, TicketTypeRequest request)
+        public OrderResponse Update(int id, OrderRequest request)
         {
             try
             {

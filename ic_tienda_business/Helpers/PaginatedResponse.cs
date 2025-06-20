@@ -31,13 +31,34 @@ namespace ic_tienda_business.Helpers
     public class EventPaginatedResponse : PaginationBase
     {
         [DataMember(Order = 1)]
-        public List<EventResponse> Events { get; set; } = new List<EventResponse>();
+        public List<EventResponse> Items { get; set; } = new List<EventResponse>();
     }
 
     [DataContract(Namespace = "http://tempuri.org/")]
     public class TicketTypePaginatedResponse : PaginationBase
     {
         [DataMember(Order = 1)]
-        public List<TicketTypeResponse> Events { get; set; } = new List<TicketTypeResponse>();
+        public List<TicketTypeResponse> Items { get; set; } = new List<TicketTypeResponse>();
+    }
+
+    [DataContract(Namespace = "http://tempuri.org/")]
+    public class OrderPaginatedResponse : PaginationBase
+    {
+        [DataMember(Order = 1)]
+        public List<OrderResponse> Items { get; set; } = new List<OrderResponse>();
+    }
+
+    [DataContract(Namespace = "http://tempuri.org/")]
+    public class OrderDetailPaginatedResponse : PaginationBase
+    {
+        [DataMember(Order = 1)]
+        public List<OrderDetailResponse> Items { get; set; } = new List<OrderDetailResponse>();
+    }
+
+    [DataContract(Namespace = "http://tempuri.org/")]
+    public class TicketPaginatedResponse : PaginationBase
+    {
+        [DataMember(Order = 1)]
+        public List<TicketResponse> Items { get; set; } = new List<TicketResponse>();
     }
 }

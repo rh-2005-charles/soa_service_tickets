@@ -1,6 +1,4 @@
-using ic_tienda.Contracts;
 using ic_tienda.Services;
-using ic_tienda_business.Dtos.Otros;
 using ic_tienda_business.IRepositories;
 using ic_tienda_business.IServices;
 using ic_tienda_business.IServices.Images;
@@ -16,8 +14,6 @@ namespace ic_tienda.Infrastructure
         {
             // Inyeccion de dependencias
 
-            services.AddScoped<ICategoryRepository, CategoryRepository>();
-            services.AddScoped<ICategoryService, CategoryService>();
 
             services.AddScoped<IImageService, ImageService>();
             services.AddScoped<IFirebaseStorageService, FirebaseStorageService>();
@@ -39,6 +35,21 @@ namespace ic_tienda.Infrastructure
             services.AddScoped<ITicketTypeRepository, TicketTypeRepository>();
             services.AddScoped<ITicketTypeService, TicketTypeService>();
             services.AddScoped<TicketTypeServiceSOAP>();
+
+            // Ticket
+            services.AddScoped<ITicketRepository, TicketRepository>();
+            services.AddScoped<ITicketService, TicketService>();
+            services.AddScoped<TicketServiceSOAP>();
+
+            // Order
+            services.AddScoped<IOrderRepository, OrderRepository>();
+            services.AddScoped<IOrderService, OrderService>();
+            services.AddScoped<OrderServiceSOAP>();
+
+            // OrderDetail
+            services.AddScoped<IOrderDetailRepository, OrderDetailRepository>();
+            services.AddScoped<IOrderDetailService, OrderDetailService>();
+            services.AddScoped<OrderDetailServiceSOAP>();
 
             return services;
         }

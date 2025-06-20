@@ -8,15 +8,15 @@ using ic_tienda_business.IServices;
 namespace ic_tienda.Services
 {
     [ServiceBehavior(Namespace = "http://tempuri.org/")]
-    public class TicketTypeServiceSOAP : ITicketTypeServiceSOAP
+    public class TicketServiceSOAP : ITicketServiceSOAP
     {
-        private readonly ITicketTypeService _service;
-        public TicketTypeServiceSOAP(ITicketTypeService service)
+        private readonly ITicketService _service;
+        public TicketServiceSOAP(ITicketService service)
         {
             _service = service;
         }
 
-        public TicketTypeResponse Add(TicketTypeRequest request)
+        public TicketResponse Add(TicketRequest request)
         {
             try
             {
@@ -40,11 +40,11 @@ namespace ic_tienda.Services
             }
         }
 
-        public TicketTypePaginatedResponse GetAll(QueryObject query)
+        public TicketPaginatedResponse GetAll(QueryObject query)
         {
             var result = _service.GetAllAsync(query).GetAwaiter().GetResult();
 
-            return new TicketTypePaginatedResponse
+            return new TicketPaginatedResponse
             {
                 Items = result.Items,
                 TotalCount = result.TotalCount,
@@ -54,7 +54,7 @@ namespace ic_tienda.Services
             };
         }
 
-        public TicketTypeResponse GetById(int id)
+        public TicketResponse GetById(int id)
         {
             try
             {
@@ -62,11 +62,11 @@ namespace ic_tienda.Services
             }
             catch
             {
-                throw new FaultException($"Evento con ID {id} no encontrado.");
+                throw new FaultException($"Item con ID {id} no encontrado.");
             }
         }
 
-        public TicketTypeResponse Update(int id, TicketTypeRequest request)
+        public TicketResponse Update(int id, TicketRequest request)
         {
             try
             {
@@ -74,7 +74,7 @@ namespace ic_tienda.Services
             }
             catch (Exception ex)
             {
-                throw new FaultException($"Error al actualizar el evento: {ex.Message}");
+                throw new FaultException($"Error al actualizar: {ex.Message}");
             }
         }
     }

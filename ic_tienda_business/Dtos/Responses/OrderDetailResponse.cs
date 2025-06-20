@@ -1,20 +1,23 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Runtime.Serialization;
 
 namespace ic_tienda_business.Dtos.Responses
 {
+    [DataContract(Namespace = "http://tempuri.org/")]
     public class OrderDetailResponse
     {
+        [DataMember(Order = 1)]
         public int Id { get; set; }
+
+        [DataMember(Order = 2)]
         public int OrderId { get; set; }
-        public int ProductId { get; set; }
-        public string? ProductName { get; set; }
-        public string? Comment { get; set; }
-        public int ProductQuantity { get; set; }
-        public decimal ProductPrice { get; set; }
+
+        [DataMember(Order = 3)]
+        public int TicketTypeId { get; set; }
+
+        [DataMember(Order = 4)]
+        public int Quantity { get; set; }
+
+        [DataMember(Order = 5)]
         public decimal SubTotal { get; set; }
-        public string? Options { get; set; }
     }
 }
