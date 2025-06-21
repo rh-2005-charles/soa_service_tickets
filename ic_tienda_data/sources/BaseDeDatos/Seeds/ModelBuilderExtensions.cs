@@ -7,7 +7,7 @@ namespace ic_tienda_data.sources.BaseDeDatos.Seeds
     {
         public static void Seed(this ModelBuilder modelBuilder)
         {
-            // Semilla para la tabla Company
+            // Semilla para Customer
             modelBuilder.Entity<Customer>().HasData(
                 new Customer
                 {
@@ -26,6 +26,30 @@ namespace ic_tienda_data.sources.BaseDeDatos.Seeds
                     Email = "cliente2@gmail.com",
                     Password = BCrypt.Net.BCrypt.HashPassword("123456"),
                     Phone = "123456789",
+                }
+            );
+
+            // Semilla para User
+            modelBuilder.Entity<User>().HasData(
+                new User
+                {
+                    Id = 1,
+                    FirstName = "Pedrito",
+                    LastName = "Pica Piedra",
+                    Email = "admin@admin.com",
+                    Password = BCrypt.Net.BCrypt.HashPassword("123456"),
+                    Phone = "123456789",
+                    Role = "administrador",
+                },
+                new User
+                {
+                    Id = 2,
+                    FirstName = "Lucho",
+                    LastName = "Marmol",
+                    Email = "vendedor@gmail.com",
+                    Password = BCrypt.Net.BCrypt.HashPassword("123456"),
+                    Phone = "123456789",
+                    Role = "vendedor",
                 }
             );
 

@@ -4,56 +4,59 @@ using ic_tienda_data.sources.BaseDeDatos.Models;
 
 namespace ic_tienda_data.Mapper
 {
-    public static class CustomerMapper
+    public static class UserMapper
     {
-        public static Customer ToModel(CustomerRegisterRequest dto)
+        public static User ToModel(UserRegisterRequest request)
         {
-            return new Customer
+            return new User
             {
-                FirstName = dto.FirstName,
-                LastName = dto.LastName,
-                Email = dto.Email,
-                Password = BCrypt.Net.BCrypt.HashPassword(dto.Password),
-                Phone = dto.Phone,
+                FirstName = request.FirstName,
+                LastName = request.LastName,
+                Email = request.Email,
+                Password = BCrypt.Net.BCrypt.HashPassword(request.Password),
+                Phone = request.Phone,
+                Role = request.Role
             };
         }
 
-        public static CustomerAuthResponse ToAuthResponse(Customer model, string token, DateTime expiration)
+        public static UserAuthResponse ToAuthResponse(User model, string token, DateTime expiration)
         {
-            return new CustomerAuthResponse
+            return new UserAuthResponse
             {
                 Id = model.Id,
                 Email = model.Email,
                 FirstName = model.FirstName,
                 LastName = model.LastName,
+                Role = model.Role,
                 Token = token,
                 TokenExpiration = expiration
             };
         }
 
-        public static CustomerResponse ToCustomerResponse(Customer model, string token, DateTime expiration)
+        public static UserResponse ToUserResponse(User model, string token, DateTime expiration)
         {
-            return new CustomerResponse
+            return new UserResponse
             {
                 Id = model.Id,
                 Email = model.Email,
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 Phone = model.Phone,
+                Role = model.Role
             };
         }
 
-        public static CustomerResponse ToResponse(Customer model)
+        public static UserResponse ToResponse(User model)
         {
-            return new CustomerResponse
+            return new UserResponse
             {
                 Id = model.Id,
                 Email = model.Email,
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 Phone = model.Phone,
+                Role = model.Role
             };
         }
-
     }
 }

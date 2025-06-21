@@ -13,18 +13,21 @@ namespace ic_tienda.Infrastructure
         public static IServiceCollection AddMyServices(this IServiceCollection services, ConfigurationManager configuration)
         {
             // Inyeccion de dependencias
-
-
             services.AddScoped<IImageService, ImageService>();
             services.AddScoped<IFirebaseStorageService, FirebaseStorageService>();
 
-
+            // Token
             services.AddScoped<IJwtTokenService, JwtTokenService>();
+
+            // Customer
             services.AddScoped<ICustomerRepository, CustomerRepository>();
             services.AddScoped<IAuthCustomerService, AuthCustomerService>();
-
-            // using SOAP service
             services.AddScoped<CustomerAuthServiceSOAP>();
+
+            // User
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IAuthUserService, AuthUserService>();
+            services.AddScoped<UserAuthServiceSOAP>();
 
             // Event
             services.AddScoped<IEventRepository, EventRepository>();

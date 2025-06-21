@@ -129,6 +129,9 @@ namespace ic_tienda_data.sources.BaseDeDatos
         public DbSet<OrderDetail> OrderDetails { get; set; }
         public DbSet<Ticket> Tickets { get; set; }
 
+        public DbSet<User> Users { get; set; }
+
+
 
 
 

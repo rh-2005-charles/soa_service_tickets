@@ -1,8 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
-using System.Threading.Tasks;
 using ic_tienda_business.Dtos.Responses;
 
 namespace ic_tienda_business.IServices
@@ -11,5 +7,9 @@ namespace ic_tienda_business.IServices
     {
         string GenerateToken(CustomerResponse customer);
         ClaimsPrincipal ValidateToken(string token);
+
+
+        string GenerateUserToken(UserResponse user);
+
     }
 }

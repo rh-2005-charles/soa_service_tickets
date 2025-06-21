@@ -55,13 +55,5 @@ namespace ic_tienda_data.Repositories
             return CustomerMapper.ToResponse(customer);
         }
 
-        /*  var eventT = await _context.Events.FindAsync(id);
-            if (eventT == null)
-            {
-                return null;
-            }
-
-            // return eventT.ToResponse();
-            return EventMapper.ToResponse(eventT); */
     }
 }

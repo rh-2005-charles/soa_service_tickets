@@ -98,6 +98,16 @@ app.UseServiceModel(builder =>
 
     builder.AddServiceEndpoint<CustomerAuthServiceSOAP, ICustomerAuthServiceSOAP>(eventBinding, "/CustomerAuthService.svc");
 
+
+    // UserAuth
+    builder.AddService<UserAuthServiceSOAP>(sOpt =>
+    {
+        sOpt.DebugBehavior.IncludeExceptionDetailInFaults = true;
+    });
+
+    builder.AddServiceEndpoint<UserAuthServiceSOAP, IUserAuthServiceSOAP>(eventBinding, "/UserAuthService.svc");
+
+
     // Event
     builder.AddService<EventServiceSOAP>(sOpt =>
     {
