@@ -16,6 +16,7 @@ namespace ic_tienda_data.sources.BaseDeDatos.Models
         public int TicketTypeId { get; set; }
         public TicketType TicketType { get; set; }
 
+        public string? TicketTypeName { get; set; }
 
         [Required, Range(0, 1000000)]
         public int Quantity { get; set; }

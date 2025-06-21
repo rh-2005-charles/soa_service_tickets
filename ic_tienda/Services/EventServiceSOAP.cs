@@ -35,6 +35,18 @@ namespace ic_tienda.Services
             }
         }
 
+        public void CancelEvent(int eventId)
+        {
+            try
+            {
+                _eventService.CancelEventAsync(eventId).GetAwaiter().GetResult();
+            }
+            catch (Exception ex)
+            {
+                throw new FaultException($"Error al cancelar evento: {ex.Message}");
+            }
+        }
+
         public void Delete(int id)
         {
             try

@@ -23,7 +23,14 @@ namespace ic_tienda_data.Repositories
             _context.Tickets.Add(ticketMap);
             await _context.SaveChangesAsync();
 
-            return TicketMapper.ToResponse(ticketMap);
+            // Recargar la entidad con sus relaciones
+            var ticketWithRelations = await _context.Tickets
+                .Include(t => t.Event)
+                .Include(t => t.TicketType)
+                .Include(t => t.Customer)
+                .FirstOrDefaultAsync(t => t.Id == ticketMap.Id);
+
+            return TicketMapper.ToResponse(ticketWithRelations);
         }
 
         public async Task DeleteAsync(int id)
@@ -65,6 +72,15 @@ namespace ic_tienda_data.Repositories
             };
         }
 
+        public async Task<List<TicketResponse>> GetByEventIdAsync(int eventId)
+        {
+            var tickets = await _context.Tickets
+                .Where(t => t.EventId == eventId)
+                .ToListAsync();
+
+            return tickets.Select(TicketMapper.ToResponse).ToList();
+        }
+
         public async Task<TicketResponse> GetByIdAsync(int id)
         {
             var item = await _context.Tickets.FindAsync(id);
@@ -74,6 +90,18 @@ namespace ic_tienda_data.Repositories
             }
 
             return TicketMapper.ToResponse(item);
+        }
+
+        public async Task<List<TicketResponse>> GetByOrderDetailIdAsync(int orderDetailId)
+        {
+            var tickets = await _context.Tickets
+                .Include(t => t.Event)
+                .Include(t => t.TicketType)
+                .Include(t => t.Customer)
+                .Where(t => t.OrderDetailId == orderDetailId)
+                .ToListAsync();
+
+            return tickets.Select(TicketMapper.ToResponse).ToList();
         }
 
         public async Task<TicketResponse> UpdateAsync(int id, TicketRequest request)

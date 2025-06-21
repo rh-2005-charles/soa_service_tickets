@@ -15,5 +15,7 @@ namespace ic_tienda_business.IServices
         Task<EventResponse> AddAsync(EventRequest eventRequest);
         Task<EventResponse> UpdateAsync(int id, EventRequest eventRequest);
         Task DeleteAsync(int id);
+
+        Task CancelEventAsync(int eventId);
     }
 }

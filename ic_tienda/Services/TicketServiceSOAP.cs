@@ -66,6 +66,18 @@ namespace ic_tienda.Services
             }
         }
 
+        public List<TicketResponse> GetByOrderDetailId(int id)
+        {
+            try
+            {
+                return _service.GetByOrderDetailIdAsync(id).GetAwaiter().GetResult();
+            }
+            catch (Exception ex)
+            {
+                throw new FaultException($"Error al obtener detalles para la orden {id}: {ex.Message}");
+            }
+        }
+
         public TicketResponse Update(int id, TicketRequest request)
         {
             try

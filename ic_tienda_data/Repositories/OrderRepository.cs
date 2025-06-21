@@ -24,7 +24,15 @@ namespace ic_tienda_data.Repositories
 
             await _context.SaveChangesAsync();
 
-            return OrderMapper.ToResponse(orderMap);
+            // Recargar la entidad con sus relaciones
+            var orderWithDetails = await _context.Orders
+                .Include(o => o.OrderDetails)
+                    .ThenInclude(od => od.TicketType)
+                .Include(o => o.OrderDetails)
+                    .ThenInclude(od => od.Tickets)
+                .FirstOrDefaultAsync(o => o.Id == orderMap.Id);
+
+            return OrderMapper.ToResponse(orderWithDetails);
         }
 
         public async Task DeleteAsync(int id)
@@ -73,9 +81,35 @@ namespace ic_tienda_data.Repositories
             };
         }
 
+        public async Task<List<OrderResponse>> GetByEventIdAsync(int eventId)
+        {
+            var orders = await _context.Orders
+                .Where(o => o.OrderDetails.Any(od =>
+                    od.Tickets.Any(t => t.EventId == eventId)))
+                .ToListAsync();
+
+            return orders.Select(OrderMapper.ToResponse).ToList();
+        }
+
         public async Task<OrderResponse> GetByIdAsync(int id)
         {
-            var order = await _context.Orders.FindAsync(id);
+            var order = await _context.Orders
+              .AsSplitQuery()
+                .Include(o => o.Customer)
+                .Include(o => o.OrderDetails)
+                    .ThenInclude(od => od.TicketType)
+                .Include(o => o.OrderDetails)
+                    .ThenInclude(od => od.Tickets)
+                        .ThenInclude(t => t.Event)
+                .Include(o => o.OrderDetails)
+                    .ThenInclude(od => od.Tickets)
+                        .ThenInclude(t => t.TicketType)
+                .Include(o => o.OrderDetails)
+                    .ThenInclude(od => od.Tickets)
+                        .ThenInclude(t => t.Customer)
+                .AsNoTracking() // Mejorar rendimiento
+                .FirstOrDefaultAsync(o => o.Id == id);
+
             if (order == null)
             {
                 throw new KeyNotFoundException($"Order con ID {id} no encontrado");

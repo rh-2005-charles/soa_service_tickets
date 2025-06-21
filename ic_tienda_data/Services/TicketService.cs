@@ -34,6 +34,11 @@ namespace ic_tienda_data.Services
             return await _repository.GetByIdAsync(id);
         }
 
+        public async Task<List<TicketResponse>> GetByOrderDetailIdAsync(int orderDetailId)
+        {
+            return await _repository.GetByOrderDetailIdAsync(orderDetailId);
+        }
+
         public async Task<TicketResponse> UpdateAsync(int id, TicketRequest request)
         {
             return await _repository.UpdateAsync(id, request);

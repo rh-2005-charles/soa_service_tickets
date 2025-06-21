@@ -25,5 +25,8 @@ namespace ic_tienda_business.Dtos.Responses
 
         [DataMember(Order = 7)]
         public int TransactionId { get; set; }
+
+        [DataMember(Order = 8)]
+        public List<OrderDetailResponse> OrderDetails { get; set; }
     }
 }

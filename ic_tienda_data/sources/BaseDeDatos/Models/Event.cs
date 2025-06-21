@@ -26,7 +26,6 @@ namespace ic_tienda_data.sources.BaseDeDatos.Models
         public string Status { get; set; }
 
         public ICollection<TicketType> TicketTypes { get; set; } = new List<TicketType>();
-
         public ICollection<Ticket> Tickets { get; set; } = new List<Ticket>();
 
     }

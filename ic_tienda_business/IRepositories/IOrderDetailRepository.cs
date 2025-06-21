@@ -11,5 +11,7 @@ namespace ic_tienda_business.IRepositories
         Task<OrderDetailResponse> AddAsync(OrderDetailRequest request);
         Task<OrderDetailResponse> UpdateAsync(int id, OrderDetailRequest request);
         Task DeleteAsync(int id);
+
+        Task<List<OrderDetailResponse>> GetByOrderIdAsync(int orderId);
     }
 }

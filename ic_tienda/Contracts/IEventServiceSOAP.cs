@@ -23,5 +23,8 @@ namespace ic_tienda.Contracts
         [OperationContract]
         void Delete(int id);
 
+        [OperationContract]
+        void CancelEvent(int eventId);
+
     }
 }

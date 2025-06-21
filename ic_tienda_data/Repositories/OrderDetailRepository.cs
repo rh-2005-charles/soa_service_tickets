@@ -19,7 +19,19 @@ namespace ic_tienda_data.Repositories
 
         public async Task<OrderDetailResponse> AddAsync(OrderDetailRequest request)
         {
+            // Obtener el TicketType relacionado
+            var ticketType = await _context.TicketTypes
+                .FirstOrDefaultAsync(tt => tt.Id == request.TicketTypeId);
+
+            if (ticketType == null)
+                throw new KeyNotFoundException($"TicketType con ID {request.TicketTypeId} no encontrado");
+
+
             var item = OrderDetailMapper.ToEntity(request);
+
+            // Asignar el nombre del TicketType
+            item.TicketTypeName = ticketType.Name;
+
             _context.OrderDetails.Add(item);
 
             await _context.SaveChangesAsync();
@@ -44,13 +56,6 @@ namespace ic_tienda_data.Repositories
         public async Task<PaginatedResponse<OrderDetailResponse>> GetAllAsync(QueryObject query)
         {
             var queryAble = _context.OrderDetails.OrderBy(e => e.Id).AsQueryable();
-
-            // Apply search filter if provided
-            // if (!string.IsNullOrEmpty(query.Search))
-            // {
-            //     queryAble = queryAble.Where(e => e.Quantity.Contains(query.Search));
-            // }
-
 
             // Apply pagination
             var totalCount = await queryAble.CountAsync();
@@ -82,6 +87,20 @@ namespace ic_tienda_data.Repositories
             }
 
             return OrderDetailMapper.ToResponse(item);
+        }
+
+        public async Task<List<OrderDetailResponse>> GetByOrderIdAsync(int orderId)
+        {
+            var orderDetails = await _context.OrderDetails
+                .Include(od => od.TicketType)
+                .Include(od => od.Tickets)
+                    .ThenInclude(t => t.Event)
+                .Include(od => od.Tickets)
+                    .ThenInclude(t => t.Customer)
+                .Where(od => od.OrderId == orderId)
+                .ToListAsync();
+
+            return orderDetails.Select(OrderDetailMapper.ToResponse).ToList();
         }
 
         public async Task<OrderDetailResponse> UpdateAsync(int id, OrderDetailRequest request)

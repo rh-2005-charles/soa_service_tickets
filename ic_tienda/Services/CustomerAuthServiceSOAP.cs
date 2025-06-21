@@ -16,6 +16,18 @@ namespace ic_tienda.Services
             _authService = authService;
         }
 
+        public CustomerResponse GetById(int id)
+        {
+            try
+            {
+                return _authService.GetById(id).GetAwaiter().GetResult();
+            }
+            catch
+            {
+                throw new FaultException($"Evento con ID {id} no encontrado.");
+            }
+        }
+
         public CustomerAuthResponse Login(CustomerLoginRequest request)
         {
             if (request == null || string.IsNullOrEmpty(request.Email))

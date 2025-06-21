@@ -12,5 +12,8 @@ namespace ic_tienda.Contracts
 
         [OperationContract]
         CustomerAuthResponse Register(CustomerRegisterRequest request);
+
+        [OperationContract]
+        CustomerResponse GetById(int id);
     }
 }

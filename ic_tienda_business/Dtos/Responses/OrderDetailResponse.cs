@@ -19,5 +19,14 @@ namespace ic_tienda_business.Dtos.Responses
 
         [DataMember(Order = 5)]
         public decimal SubTotal { get; set; }
+
+        [DataMember(Order = 6)]
+        public string? TicketTypeName { get; set; }
+
+        [DataMember(Order = 7)]
+        public decimal? UnitPrice { get; set; }
+
+        [DataMember(Order = 8)]
+        public List<TicketResponse> Tickets { get; set; }
     }
 }

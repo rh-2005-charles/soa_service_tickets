@@ -66,6 +66,18 @@ namespace ic_tienda.Services
             }
         }
 
+        public List<OrderDetailResponse> GetByOrderId(int orderId)
+        {
+            try
+            {
+                return _service.GetByOrderIdAsync(orderId).GetAwaiter().GetResult();
+            }
+            catch
+            {
+                throw new FaultException($"Item con ID {orderId} no encontrado.");
+            }
+        }
+
         public OrderDetailResponse Update(int id, OrderDetailRequest request)
         {
             try

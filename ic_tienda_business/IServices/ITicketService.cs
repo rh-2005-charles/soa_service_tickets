@@ -11,5 +11,8 @@ namespace ic_tienda_business.IServices
         Task<TicketResponse> AddAsync(TicketRequest request);
         Task<TicketResponse> UpdateAsync(int id, TicketRequest request);
         Task DeleteAsync(int id);
+
+        Task<List<TicketResponse>> GetByOrderDetailIdAsync(int orderDetailId);
+
     }
 }

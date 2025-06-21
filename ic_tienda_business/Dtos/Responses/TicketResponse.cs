@@ -31,5 +31,14 @@ namespace ic_tienda_business.Dtos.Responses
 
         [DataMember(Order = 9)]
         public string? QrCode { get; set; }
+
+        [DataMember(Order = 10)]
+        public string? EventName { get; set; }
+
+        [DataMember(Order = 11)]
+        public string? TicketTypeName { get; set; }
+
+        [DataMember(Order = 12)]
+        public string? CustomerName { get; set; }
     }
 }

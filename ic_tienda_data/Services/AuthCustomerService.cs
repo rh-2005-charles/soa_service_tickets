@@ -1,5 +1,3 @@
-using System.Security.Cryptography;
-using System.Text;
 using ic_tienda_business.Dtos.Requests;
 using ic_tienda_business.Dtos.Responses;
 using ic_tienda_business.IRepositories;
@@ -18,6 +16,11 @@ namespace ic_tienda_data.Services
         {
             _customerRepository = customerRepository;
             _tokenService = tokenService;
+        }
+
+        public async Task<CustomerResponse> GetById(int id)
+        {
+            return await _customerRepository.GetById(id);
         }
 
         public async Task<CustomerAuthResponse> Login(CustomerLoginRequest request)

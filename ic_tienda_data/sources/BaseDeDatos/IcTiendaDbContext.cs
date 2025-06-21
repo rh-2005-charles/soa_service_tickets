@@ -120,7 +120,6 @@ namespace ic_tienda_data.sources.BaseDeDatos
             // Seeders
             modelBuilder.Seed();
         }
-        //public DbSet<CategoryTable> categories { get; set; }
         // Propiedades que representan tablas de la base de datos.
 
         public DbSet<Customer> Customers { get; set; }
@@ -134,7 +133,7 @@ namespace ic_tienda_data.sources.BaseDeDatos
 
 
         // Tabla de errores.
-        public virtual DbSet<Error> Errors { get; set; }
+        // public virtual DbSet<Error> Errors { get; set; }
 
 
         // Configuración del proveedor de base de datos y cadena de conexión.
@@ -144,14 +143,6 @@ namespace ic_tienda_data.sources.BaseDeDatos
             var connectionString = _configuration.GetConnectionString("DbCloudMySQL");
             optionsBuilder.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString),
             x => x.MigrationsAssembly("ic_tienda"));
-
-            // Configuración para SQLite.
-            //var connectionString = _configuration.GetConnectionString("DbCloudSQLite");
-            //optionsBuilder.UseSqlite(connectionString);
-
-            // Para SQL Server
-            //var connectionString = _configuration.GetConnectionString("DbCloudSQLServer");
-            //optionsBuilder.UseSqlServer(connectionString);
         }
     }
 }

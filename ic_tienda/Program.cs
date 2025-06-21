@@ -64,6 +64,8 @@ builder.Services.AddServiceModelServices()
 
 var app = builder.Build();
 
+
+app.UseCors("AllowFrontend");
 //app.UseMiddleware<ErrorMiddleware>();
 app.UseAuthentication();
 app.UseAuthorization();

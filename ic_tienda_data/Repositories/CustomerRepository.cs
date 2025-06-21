@@ -46,5 +46,22 @@ namespace ic_tienda_data.Repositories
             return customer;
         }
 
+        public async Task<CustomerResponse> GetById(int id)
+        {
+            var customer = await _context.Customers.FindAsync(id);
+
+            if (customer == null) return null;
+
+            return CustomerMapper.ToResponse(customer);
+        }
+
+        /*  var eventT = await _context.Events.FindAsync(id);
+            if (eventT == null)
+            {
+                return null;
+            }
+
+            // return eventT.ToResponse();
+            return EventMapper.ToResponse(eventT); */
     }
 }

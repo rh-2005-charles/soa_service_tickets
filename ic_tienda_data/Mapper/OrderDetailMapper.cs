@@ -24,8 +24,18 @@ namespace ic_tienda_data.Mapper
                 Id = entity.Id,
                 OrderId = entity.OrderId,
                 TicketTypeId = entity.TicketTypeId,
+                TicketTypeName = entity.TicketType?.Name ?? string.Empty,
+                UnitPrice = entity.TicketType?.Price ?? 0,
                 Quantity = entity.Quantity,
                 SubTotal = entity.SubTotal,
+                Tickets = entity.Tickets?.Select(t => new TicketResponse
+                {
+                    Id = t.Id,
+                    EventId = t.EventId,
+                    TicketTypeId = t.TicketTypeId,
+                    Status = t.Status,
+                    SeatNumber = t.SeatNumber
+                }).ToList() ?? new List<TicketResponse>()
             };
         }
 

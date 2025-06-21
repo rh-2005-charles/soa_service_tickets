@@ -45,5 +45,17 @@ namespace ic_tienda_data.Mapper
             };
         }
 
+        public static CustomerResponse ToResponse(Customer model)
+        {
+            return new CustomerResponse
+            {
+                Id = model.Id,
+                Email = model.Email,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                Phone = model.Phone,
+            };
+        }
+
     }
 }

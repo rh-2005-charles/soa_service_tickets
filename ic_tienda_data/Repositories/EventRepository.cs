@@ -29,6 +29,8 @@ namespace ic_tienda_data.Repositories
             return EventMapper.ToResponse(eventMap);
         }
 
+        
+
         public async Task DeleteAsync(int id)
         {
             var envent = await _context.Events.FindAsync(id);
