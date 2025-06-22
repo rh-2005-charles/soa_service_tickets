@@ -81,6 +81,18 @@ namespace ic_tienda_data.Repositories
             };
         }
 
+        public async Task<List<OrderResponse>> GetByCustomerIdAsync(int customerId)
+        {
+            var orders = await _context.Orders
+                .Where(o => o.CustomerId == customerId)
+                .OrderByDescending(o => o.OrderDate)
+                .ToListAsync();
+
+            return orders.Select(OrderMapper.ToResponse).ToList();
+        }
+
+
+
         public async Task<List<OrderResponse>> GetByEventIdAsync(int eventId)
         {
             var orders = await _context.Orders

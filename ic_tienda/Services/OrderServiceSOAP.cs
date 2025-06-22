@@ -54,6 +54,18 @@ namespace ic_tienda.Services
             };
         }
 
+        public List<OrderResponse> GetByCustomerId(int customerId)
+        {
+            try
+            {
+                return _service.GetByCustomerIdAsync(customerId).GetAwaiter().GetResult();
+            }
+            catch
+            {
+                throw new FaultException($"customer con ID {customerId} no encontrado.");
+            }
+        }
+
         public OrderResponse GetById(int id)
         {
             try

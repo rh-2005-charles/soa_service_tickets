@@ -75,6 +75,15 @@ namespace ic_tienda_data.Repositories
             };
         }
 
+        public async Task<List<TicketTypeResponse>> GetByEventIdAsync(int eventId)
+        {
+            var ticketTypes = await _context.TicketTypes
+                .Where(t => t.EventId == eventId)
+                .ToListAsync();
+
+            return ticketTypes.Select(TicketTypeMapper.ToResponse).ToList();
+        }
+
         public async Task<TicketTypeResponse> GetByIdAsync(int id)
         {
             var ticketType = await _context.TicketTypes.FindAsync(id);

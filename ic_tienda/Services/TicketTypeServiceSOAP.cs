@@ -54,6 +54,18 @@ namespace ic_tienda.Services
             };
         }
 
+        public List<TicketTypeResponse> GetByEventId(int eventId)
+        {
+            try
+            {
+                return _service.GetByEventIdAsync(eventId).GetAwaiter().GetResult();
+            }
+            catch
+            {
+                throw new FaultException($"Evento con {eventId} no encontrado.");
+            }
+        }
+
         public TicketTypeResponse GetById(int id)
         {
             try

@@ -22,5 +22,8 @@ namespace ic_tienda.Contracts
 
         [OperationContract]
         void Delete(int id);
+
+        [OperationContract]
+        List<TicketTypeResponse> GetByEventId(int eventId);
     }
 }

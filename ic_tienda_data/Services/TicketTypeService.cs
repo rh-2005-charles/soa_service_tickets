@@ -29,6 +29,11 @@ namespace ic_tienda_data.Services
             return await _repository.GetAllAsync(query);
         }
 
+        public async Task<List<TicketTypeResponse>> GetByEventIdAsync(int eventId)
+        {
+            return await _repository.GetByEventIdAsync(eventId);
+        }
+
         public async Task<TicketTypeResponse> GetByIdAsync(int id)
         {
             return await _repository.GetByIdAsync(id);

@@ -11,5 +11,7 @@ namespace ic_tienda_business.IServices
         Task<TicketTypeResponse> AddAsync(TicketTypeRequest request);
         Task<TicketTypeResponse> UpdateAsync(int id, TicketTypeRequest request);
         Task DeleteAsync(int id);
+
+        Task<List<TicketTypeResponse>> GetByEventIdAsync(int eventId);
     }
 }

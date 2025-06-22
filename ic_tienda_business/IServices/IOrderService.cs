@@ -11,5 +11,7 @@ namespace ic_tienda_business.IServices
         Task<OrderResponse> AddAsync(OrderRequest request);
         Task<OrderResponse> UpdateAsync(int id, OrderRequest request);
         Task DeleteAsync(int id);
+
+        Task<List<OrderResponse>> GetByCustomerIdAsync(int customerId);
     }
 }

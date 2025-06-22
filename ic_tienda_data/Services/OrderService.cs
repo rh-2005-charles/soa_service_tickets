@@ -128,6 +128,11 @@ namespace ic_tienda_data.Services
             return await _orderRepository.GetAllAsync(query);
         }
 
+        public async Task<List<OrderResponse>> GetByCustomerIdAsync(int customerId)
+        {
+            return await _orderRepository.GetByCustomerIdAsync(customerId);
+        }
+
         public async Task<OrderResponse> GetByIdAsync(int id)
         {
             return await _orderRepository.GetByIdAsync(id);

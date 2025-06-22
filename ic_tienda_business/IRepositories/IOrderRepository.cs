@@ -13,5 +13,7 @@ namespace ic_tienda_business.IRepositories
         Task DeleteAsync(int id);
 
         Task<List<OrderResponse>> GetByEventIdAsync(int eventId);
+
+        Task<List<OrderResponse>> GetByCustomerIdAsync(int customerId);
     }
 }
