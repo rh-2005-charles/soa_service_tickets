@@ -56,7 +56,7 @@ namespace ic_tienda_data.Services
                 CustomerId = request.CustomerId,
                 OrderDate = DateTime.UtcNow,
                 TotalAmount = totalAmount,
-                Status = "Pending",
+                Status = "Finalizado",
                 PaymentMethod = request.PaymentMethod,
                 TransactionId = request.TransactionId
             };

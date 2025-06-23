@@ -14,7 +14,7 @@ namespace ic_tienda_data.sources.BaseDeDatos.Seeds
                     Id = 1,
                     FirstName = "Juan",
                     LastName = "Daba Daba Du",
-                    Email = "cliente2@gmail.com",
+                    Email = "cliente@gmail.com",
                     Password = BCrypt.Net.BCrypt.HashPassword("123456"),
                     Phone = "123456789",
                 },
@@ -23,7 +23,7 @@ namespace ic_tienda_data.sources.BaseDeDatos.Seeds
                     Id = 2,
                     FirstName = "Maria",
                     LastName = "De la Vega",
-                    Email = "cliente2@gmail.com",
+                    Email = "cliente1@gmail.com",
                     Password = BCrypt.Net.BCrypt.HashPassword("123456"),
                     Phone = "123456789",
                 }
@@ -39,7 +39,7 @@ namespace ic_tienda_data.sources.BaseDeDatos.Seeds
                     Email = "admin@admin.com",
                     Password = BCrypt.Net.BCrypt.HashPassword("123456"),
                     Phone = "123456789",
-                    Role = "administrador",
+                    Role = "Admin",
                 },
                 new User
                 {
@@ -49,7 +49,7 @@ namespace ic_tienda_data.sources.BaseDeDatos.Seeds
                     Email = "vendedor@gmail.com",
                     Password = BCrypt.Net.BCrypt.HashPassword("123456"),
                     Phone = "123456789",
-                    Role = "vendedor",
+                    Role = "Vendedor",
                 }
             );
 
@@ -63,7 +63,7 @@ namespace ic_tienda_data.sources.BaseDeDatos.Seeds
                     Date = new DateTime(2025, 7, 15, 20, 0, 0),
                     Location = "Estadio Nacional, Lima",
                     ImageUrl = "concierto-rock.jpg",
-                    Status = "active"
+                    Status = "Activo"
                 },
                 new Event
                 {
@@ -73,7 +73,7 @@ namespace ic_tienda_data.sources.BaseDeDatos.Seeds
                     Date = new DateTime(2025, 8, 10, 18, 0, 0),
                     Location = "Parque de la Exposición, Lima",
                     ImageUrl = "festival-jazz.jpg",
-                    Status = "active"
+                    Status = "Activo"
                 }
             );
 
@@ -136,7 +136,7 @@ namespace ic_tienda_data.sources.BaseDeDatos.Seeds
                     CustomerId = 1,
                     OrderDate = new DateTime(2025, 6, 1, 10, 30, 0),
                     TotalAmount = 310.00m, // 1 VIP + 2 Generales (150 + 80*2)
-                    Status = "Pagado",
+                    Status = "Finalizado",
                     PaymentMethod = "Tarjeta",
                     TransactionId = 1001
                 },
@@ -146,7 +146,7 @@ namespace ic_tienda_data.sources.BaseDeDatos.Seeds
                     CustomerId = 1,
                     OrderDate = new DateTime(2025, 6, 2, 11, 15, 0),
                     TotalAmount = 100.00m, // 2 Estudiantes (50*2)
-                    Status = "Pagado",
+                    Status = "Finalizado",
                     PaymentMethod = "Yape",
                     TransactionId = 1002
                 },
@@ -156,7 +156,7 @@ namespace ic_tienda_data.sources.BaseDeDatos.Seeds
                     CustomerId = 2,
                     OrderDate = new DateTime(2025, 6, 3, 14, 20, 0),
                     TotalAmount = 440.00m, // 1 Platinum + 2 Golden (200 + 120*2)
-                    Status = "Pendiente",
+                    Status = "Finalizado",
                     PaymentMethod = "Transferencia",
                     TransactionId = 1003
                 }

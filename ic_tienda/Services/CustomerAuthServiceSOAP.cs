@@ -57,7 +57,6 @@ namespace ic_tienda.Services
             }
             catch (Exception ex)
             {
-                // Log the exception
                 Console.WriteLine($"Error en Register: {ex}");
                 throw;
             }

@@ -7,12 +7,6 @@ using ic_tienda_business.IServices;
 
 namespace ic_tienda.Services
 {
-    /* [ServiceBehavior(
-        Namespace = "http://tempuri.org/",
-        InstanceContextMode = InstanceContextMode.PerCall,
-        IncludeExceptionDetailInFaults = true
-    )] */
-
     [ServiceBehavior(Namespace = "http://tempuri.org/")]
     public class EventServiceSOAP : IEventServiceSOAP
     {
