@@ -54,7 +54,7 @@ namespace ic_tienda.Services
             };
         }
 
-        public TicketResponse GetById(int id)
+        public List<TicketResponse> GetById(int id)
         {
             try
             {

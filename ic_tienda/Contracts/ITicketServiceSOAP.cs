@@ -12,7 +12,7 @@ namespace ic_tienda.Contracts
         TicketPaginatedResponse GetAll(QueryObject query);
 
         [OperationContract]
-        TicketResponse GetById(int id);
+        List<TicketResponse> GetById(int id);
 
         [OperationContract]
         TicketResponse Add(TicketRequest request);

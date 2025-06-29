@@ -7,7 +7,8 @@ namespace ic_tienda_business.IRepositories
     public interface ITicketRepository
     {
         Task<PaginatedResponse<TicketResponse>> GetAllAsync(QueryObject query);
-        Task<TicketResponse> GetByIdAsync(int id);
+        // Task<TicketResponse> GetByIdAsync(int id);
+        Task<List<TicketResponse>> GetByIdAsync(int id);
         Task<TicketResponse> AddAsync(TicketRequest request);
         Task<TicketResponse> UpdateAsync(int id, TicketRequest request);
         Task DeleteAsync(int id);

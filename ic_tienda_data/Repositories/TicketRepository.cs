@@ -81,15 +81,34 @@ namespace ic_tienda_data.Repositories
             return tickets.Select(TicketMapper.ToResponse).ToList();
         }
 
-        public async Task<TicketResponse> GetByIdAsync(int id)
+        public async Task<List<TicketResponse>> GetByIdAsync(int id)
         {
-            var item = await _context.Tickets.FindAsync(id);
-            if (item == null)
-            {
-                throw new KeyNotFoundException($"Item con ID {id} no encontrado");
-            }
 
-            return TicketMapper.ToResponse(item);
+            var tickets = await _context.Orders
+                .Where(o => o.Id == id)
+                .SelectMany(o => o.OrderDetails)
+                .SelectMany(od => od.Tickets)
+                .Include(t => t.Event)
+                .Include(t => t.TicketType)
+                .Include(t => t.Customer)
+                .Select(t => new TicketResponse
+                {
+                    Id = t.Id,
+                    OrderDetailId = t.OrderDetailId,
+                    EventId = t.EventId,
+                    EventName = t.Event.Name,
+                    TicketTypeId = t.TicketTypeId,
+                    TicketTypeName = t.TicketType.Name,
+                    CustomerId = t.CustomerId,
+                    CustomerName = $"{t.Customer.FirstName} {t.Customer.LastName}",
+                    Status = t.Status,
+                    SeatNumber = t.SeatNumber,
+                    TicketUrl = t.TicketUrl,
+                    QrCode = t.QrCode
+                })
+               .ToListAsync();
+
+            return tickets;
         }
 
         public async Task<List<TicketResponse>> GetByOrderDetailIdAsync(int orderDetailId)
