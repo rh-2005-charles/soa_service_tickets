@@ -71,7 +71,6 @@ namespace ic_tienda_data.Repositories
                 TotalCount = totalCount,
                 PageNumber = query.PageNumber,
                 PageSize = query.PageSize,
-                TotalPages = (int)Math.Ceiling((double)totalCount / query.PageSize)
             };
         }
 

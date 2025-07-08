@@ -1,27 +1,59 @@
 using System.Text;
-using CoreWCF;
-using CoreWCF.Channels;
-using CoreWCF.Configuration;
-using CoreWCF.Description;
-using ic_tienda.Contracts;
 using ic_tienda.Infrastructure;
-using ic_tienda.Services;
 using ic_tienda_data.sources.BaseDeDatos;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Configuración base
+
+// Add services to the container.
+builder.Services.AddEndpointsApiExplorer();
+
+// Configuración de Swagger
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "ic_tienda API", Version = "v1" });
+
+    // Configurar autenticación con Bearer Token
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Description = "Ingrese el token JWT en este formato: Bearer {token}",
+        Name = "Authorization",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.ApiKey,
+        Scheme = "Bearer"
+    });
+
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement{
+        {
+            new OpenApiSecurityScheme{
+                Reference=new OpenApiReference{
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            new string[]{}
+        }
+    });
+}
+
+);
+
+builder.Services.AddControllers();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddMyServices(builder.Configuration);
+//builder.Services.AddMyServices();
 
-// Configuración de la base de datos MySQL
+
+// Para MySQL:
 builder.Services.AddDbContext<IcTiendaDbContext>(options =>
     options.UseMySql(
         builder.Configuration.GetConnectionString("DbCloudMySQL"),
         ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DbCloudMySQL"))));
+
 
 // Leer orígenes permitidos desde appsettings.json
 var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>();
@@ -37,121 +69,48 @@ builder.Services.AddCors(options =>
     });
 });
 
-// Configuración JWT
-var key = Encoding.ASCII.GetBytes(builder.Configuration["Jwt:Key"] ?? throw new InvalidOperationException("JWT Key is not configured"));
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(x =>
+// Configure JWT Authentication
+var key = Encoding.ASCII.GetBytes(builder.Configuration["Jwt:Key"]);
+builder.Services.AddAuthentication(x =>
+{
+    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(x =>
+{
+    x.RequireHttpsMetadata = false;
+    x.SaveToken = true;
+    x.TokenValidationParameters = new TokenValidationParameters
     {
-        x.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(key),
-            ValidateIssuer = true,
-            ValidateAudience = true,
-            ValidIssuer = builder.Configuration["Jwt:Issuer"],
-            ValidAudience = builder.Configuration["Jwt:Audience"]
-        };
-    });
-
-builder.Services.AddAuthorization();
-
-// Configuración SOAP con CoreWCF
-builder.Services.AddServiceModelServices()
-    .AddServiceModelMetadata()
-    .AddSingleton<IServiceBehavior, UseRequestHeadersForMetadataAddressBehavior>();
-
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(key),
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidIssuer = builder.Configuration["Jwt:Issuer"],
+        ValidAudience = builder.Configuration["Jwt:Audience"]
+    };
+});
 
 
 var app = builder.Build();
 
+// Configure the HTTP request pipeline.
+//if (app.Environment.IsDevelopment())
+//{
+app.UseSwagger();
+app.UseSwaggerUI();
+//}
 
+app.UseHttpsRedirection();
+//app.Run();
+
+// Habilitar la entrega de archivos estáticos desde wwwroot
+app.UseStaticFiles();
 app.UseCors("AllowFrontend");
-//app.UseMiddleware<ErrorMiddleware>();
+
+// Middleware
+
 app.UseAuthentication();
 app.UseAuthorization();
-
-
-// Configuración del endpoint SOAP
-app.UseServiceModel(builder =>
-{
-    var eventBinding = new BasicHttpBinding
-    {
-        MaxReceivedMessageSize = int.MaxValue,
-        ReaderQuotas = new System.Xml.XmlDictionaryReaderQuotas
-        {
-            MaxDepth = 32,
-            MaxArrayLength = int.MaxValue,
-            MaxStringContentLength = int.MaxValue
-        },
-        Security = new BasicHttpSecurity { Mode = BasicHttpSecurityMode.None },
-        CloseTimeout = TimeSpan.FromMinutes(1),
-        OpenTimeout = TimeSpan.FromMinutes(1),
-        ReceiveTimeout = TimeSpan.FromMinutes(10),
-        SendTimeout = TimeSpan.FromMinutes(1)
-    };
-
-    // CustomerAuth
-    builder.AddService<CustomerAuthServiceSOAP>(sOpt =>
-    {
-        sOpt.DebugBehavior.IncludeExceptionDetailInFaults = true;
-    });
-
-    builder.AddServiceEndpoint<CustomerAuthServiceSOAP, ICustomerAuthServiceSOAP>(eventBinding, "/CustomerAuthService.svc");
-
-
-    // UserAuth
-    builder.AddService<UserAuthServiceSOAP>(sOpt =>
-    {
-        sOpt.DebugBehavior.IncludeExceptionDetailInFaults = true;
-    });
-
-    builder.AddServiceEndpoint<UserAuthServiceSOAP, IUserAuthServiceSOAP>(eventBinding, "/UserAuthService.svc");
-
-
-    // Event
-    builder.AddService<EventServiceSOAP>(sOpt =>
-    {
-        sOpt.DebugBehavior.IncludeExceptionDetailInFaults = true;
-    });
-
-    builder.AddServiceEndpoint<EventServiceSOAP, IEventServiceSOAP>(eventBinding, "/EventService.svc");
-
-    // TycketType
-    builder.AddService<TicketTypeServiceSOAP>(sOpt =>
-    {
-        sOpt.DebugBehavior.IncludeExceptionDetailInFaults = true;
-    });
-
-    builder.AddServiceEndpoint<TicketTypeServiceSOAP, ITicketTypeServiceSOAP>(eventBinding, "/TicketTypeService.svc");
-
-    // Tycket
-    builder.AddService<TicketServiceSOAP>(sOpt =>
-    {
-        sOpt.DebugBehavior.IncludeExceptionDetailInFaults = true;
-    });
-
-    builder.AddServiceEndpoint<TicketServiceSOAP, ITicketServiceSOAP>(eventBinding, "/TicketService.svc");
-
-    // Order
-    builder.AddService<OrderServiceSOAP>(sOpt =>
-    {
-        sOpt.DebugBehavior.IncludeExceptionDetailInFaults = true;
-    });
-
-    builder.AddServiceEndpoint<OrderServiceSOAP, IOrderServiceSOAP>(eventBinding, "/OrderService.svc");
-
-    // OrderDetail
-    builder.AddService<OrderDetailServiceSOAP>(sOpt =>
-    {
-        sOpt.DebugBehavior.IncludeExceptionDetailInFaults = true;
-    });
-
-    builder.AddServiceEndpoint<OrderDetailServiceSOAP, IOrderDetailServiceSOAP>(eventBinding, "/OrderDetailService.svc");
-
-
-    // Habilitar metadata WSDL
-    var serviceMetadataBehavior = app.Services.GetRequiredService<ServiceMetadataBehavior>();
-    serviceMetadataBehavior.HttpGetEnabled = true;
-});
-
+app.MapControllers();
 app.Run();
