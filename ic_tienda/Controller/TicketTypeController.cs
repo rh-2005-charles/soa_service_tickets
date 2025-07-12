@@ -6,8 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace ic_tienda.Controller
 {
     [ApiController]
-    [Route("api/[controller]")]
-    public class TicketTypeController:ControllerBase
+    [Route("api/v1/[controller]")]
+    public class TicketTypeController : ControllerBase
     {
         private readonly ITicketTypeService _service;
         public TicketTypeController(ITicketTypeService service)

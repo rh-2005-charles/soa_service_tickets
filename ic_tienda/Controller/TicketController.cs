@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using ic_tienda_business.Dtos.Requests;
 using ic_tienda_business.Dtos.Responses;
 using ic_tienda_business.Helpers;
@@ -10,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ic_tienda.Controller
 {
-    [Route("api/[controller]")]
+    [Route("api/v1/[controller]")]
     [ApiController]
     public class TicketController : ControllerBase
     {

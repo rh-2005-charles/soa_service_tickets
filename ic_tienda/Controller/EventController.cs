@@ -6,19 +6,19 @@ using Microsoft.AspNetCore.Mvc;
 namespace ic_tienda.Controller
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/v1/[controller]")]
     public class EventController : ControllerBase
     {
         private readonly IEventService _service;
         public EventController(IEventService service)
         {
-            _service= service;
+            _service = service;
         }
 
         [HttpPost]
         public async Task<IActionResult> Create([FromForm] EventRequest request)
         {
-   
+
             var createdCategory = await _service.AddAsync(request);
             return CreatedAtAction(nameof(GetById), new { id = createdCategory.Id }, createdCategory);
         }

@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ic_tienda.Controller
 {
-    [Route("api/[controller]")]
+    [Route("api/v1/[controller]")]
     [ApiController]
     public class OrderController : ControllerBase
     {
