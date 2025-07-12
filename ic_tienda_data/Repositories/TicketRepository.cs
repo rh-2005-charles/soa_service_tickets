@@ -122,6 +122,40 @@ namespace ic_tienda_data.Repositories
             return tickets.Select(TicketMapper.ToResponse).ToList();
         }
 
+        public async Task<int> GetNextSeatNumberAsync(int eventId)
+        {
+            // Obtener el máximo seat number para este evento
+            var maxSeat = await _context.Tickets
+                .Where(t => t.EventId == eventId)
+                .MaxAsync(t => (int?)t.SeatNumber) ?? 0;
+
+            return maxSeat + 1;
+        }
+
+        public async Task<int> GetNextTicketNumberAsync()
+        {
+            // Traer solo las URLs necesarias
+            var ticketUrls = await _context.Tickets
+                .Where(t => t.TicketUrl != null && t.TicketUrl.StartsWith("ticket_"))
+                .Select(t => t.TicketUrl)
+                .ToListAsync();
+
+            if (!ticketUrls.Any())
+            {
+                return 1;
+            }
+
+            var maxNumber = ticketUrls
+                .Select(url =>
+                {
+                    var numberPart = url.Replace("ticket_", "").Replace(".png", "");
+                    return int.TryParse(numberPart, out var num) ? num : 0;
+                })
+                .Max();
+
+            return maxNumber + 1;
+        }
+
         public async Task<TicketResponse> UpdateAsync(int id, TicketRequest request)
         {
             var item = _context.Tickets.Find(id);

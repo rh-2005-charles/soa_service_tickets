@@ -30,7 +30,7 @@ namespace ic_tienda_data.Services
             _customerRepository = customerRepository;
         }
 
-        public async Task<OrderResponse> AddAsync(OrderRequest request)
+        public async Task<OrderResponse> AddAsync(CreateOrderRequest request)
         {
             // 1. Validar que el cliente existe
             var customer = await _customerRepository.GetById(request.CustomerId);
@@ -50,6 +50,8 @@ namespace ic_tienda_data.Services
                 totalAmount += ticketType.Price * item.Quantity;
             }
 
+            var nextTransactionId = await _orderRepository.GetNextTransactionIdAsync();
+
             // Crear la orden principal
             var orderRequest = new OrderRequest
             {
@@ -58,7 +60,7 @@ namespace ic_tienda_data.Services
                 TotalAmount = totalAmount,
                 Status = "Finalizado",
                 PaymentMethod = request.PaymentMethod,
-                TransactionId = request.TransactionId
+                TransactionId = nextTransactionId
             };
 
             var orderResponse = await _orderRepository.AddAsync(orderRequest);
@@ -94,13 +96,20 @@ namespace ic_tienda_data.Services
                 // Generar Tickets
                 for (int i = 0; i < item.Quantity; i++)
                 {
+                    // Obtener números secuenciales
+                    var seatNumber = await _ticketRepository.GetNextSeatNumberAsync(ticketType.EventId);
+                    var ticketNumber = await _ticketRepository.GetNextTicketNumberAsync();
+
                     var ticketRequest = new TicketRequest
                     {
                         OrderDetailId = orderDetailResponse.Id,
                         EventId = ticketType.EventId,
                         TicketTypeId = item.TicketTypeId,
                         CustomerId = request.CustomerId,
-                        Status = "Active"
+                        Status = "Valido",
+                        SeatNumber = seatNumber,
+                        TicketUrl = $"ticket_{ticketNumber}.png",
+                        QrCode = $"qrticket_{ticketNumber}"
                     };
 
                     // Verificar valores antes de crear el ticket

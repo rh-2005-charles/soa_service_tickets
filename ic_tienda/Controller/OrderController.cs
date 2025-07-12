@@ -68,7 +68,7 @@ namespace ic_tienda.Controller
         }
 
         [HttpPost]
-        public async Task<ActionResult<OrderResponse>> Create([FromBody] OrderRequest request)
+        public async Task<ActionResult<OrderResponse>> Create([FromBody] CreateOrderRequest request)
         {
             try
             {

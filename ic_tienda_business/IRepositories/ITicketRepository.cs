@@ -16,5 +16,9 @@ namespace ic_tienda_business.IRepositories
         Task<List<TicketResponse>> GetByOrderDetailIdAsync(int orderDetailId);
 
         Task<List<TicketResponse>> GetByEventIdAsync(int eventId);
+
+        // Auto Incremental
+        Task<int> GetNextSeatNumberAsync(int eventId);
+        Task<int> GetNextTicketNumberAsync();
     }
 }

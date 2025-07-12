@@ -15,7 +15,7 @@ namespace ic_tienda_data.Mapper
                 Date = request.Date,
                 Location = request.Location,
                 Status = request.Status,
-                ImageUrl = request.ImageUrl
+                ImageUrl = "img_placeholder.png"
             };
         }
 
@@ -40,7 +40,7 @@ namespace ic_tienda_data.Mapper
             entity.Date = request.Date;
             entity.Status = request.Status;
             entity.Location = request.Location;
-            entity.ImageUrl = request.ImageUrl;
+            //entity.ImageUrl = request.ImgPath;
         }
     }
 }

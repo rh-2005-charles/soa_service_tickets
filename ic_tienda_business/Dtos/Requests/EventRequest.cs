@@ -1,4 +1,4 @@
-using System.Runtime.Serialization;
+using Microsoft.AspNetCore.Http;
 
 namespace ic_tienda_business.Dtos.Requests
 {
@@ -12,8 +12,8 @@ namespace ic_tienda_business.Dtos.Requests
 
         public string Location { get; set; }
 
-        public string ImageUrl { get; set; }
-        
+        public IFormFile ImgPath { get; set; }
+
         public string Status { get; set; }
     }
 }

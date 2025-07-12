@@ -129,6 +129,13 @@ namespace ic_tienda_data.Repositories
             return OrderMapper.ToResponse(order);
         }
 
+        public async Task<int> GetNextTransactionIdAsync()
+        {
+            var maxId = await _context.Orders.MaxAsync(o => (int?)o.TransactionId) ?? 0;
+
+            return maxId + 1;
+        }
+
         public async Task<OrderResponse> UpdateAsync(int id, OrderRequest request)
         {
             var order = _context.Orders.Find(id);

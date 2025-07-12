@@ -8,7 +8,7 @@ namespace ic_tienda_business.IServices
     {
         Task<PaginatedResponse<OrderResponse>> GetAllAsync(QueryObject query);
         Task<OrderResponse> GetByIdAsync(int id);
-        Task<OrderResponse> AddAsync(OrderRequest request);
+        Task<OrderResponse> AddAsync(CreateOrderRequest request);
         Task<OrderResponse> UpdateAsync(int id, OrderRequest request);
         Task DeleteAsync(int id);
 

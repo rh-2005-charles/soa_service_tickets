@@ -19,6 +19,14 @@ namespace ic_tienda_business.Dtos.Requests
         public List<OrderItemRequest> Items { get; set; }
     }
 
+
+    public class CreateOrderRequest
+    {
+        public int CustomerId { get; set; }
+        public string PaymentMethod { get; set; }
+        public List<OrderItemRequest> Items { get; set; }
+    }
+
     public class OrderItemRequest
     {
         public int TicketTypeId { get; set; }

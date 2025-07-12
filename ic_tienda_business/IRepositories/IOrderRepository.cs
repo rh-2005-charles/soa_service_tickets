@@ -15,5 +15,8 @@ namespace ic_tienda_business.IRepositories
         Task<List<OrderResponse>> GetByEventIdAsync(int eventId);
 
         Task<List<OrderResponse>> GetByCustomerIdAsync(int customerId);
+
+        // para auto incremental
+        Task<int> GetNextTransactionIdAsync();
     }
 }

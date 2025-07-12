@@ -19,41 +19,6 @@ namespace ic_tienda_data.Mapper
             };
         }
 
-        /* public static OrderResponse ToResponse(Order entity)
-        {
-            var response = new OrderResponse
-            {
-                Id = entity.Id,
-                CustomerId = entity.CustomerId,
-                OrderDate = entity.OrderDate,
-                TotalAmount = entity.TotalAmount,
-                Status = entity.Status,
-                PaymentMethod = entity.PaymentMethod,
-                TransactionId = entity.TransactionId,
-                OrderDetails = entity.OrderDetails?.Select(od => new OrderDetailResponse
-                {
-                    Id = od.Id,
-                    OrderId = od.OrderId,
-                    TicketTypeId = od.TicketTypeId,
-                    TicketTypeName = od.TicketType?.Name ?? string.Empty,
-                    Quantity = od.Quantity,
-                    UnitPrice = od.TicketType?.Price ?? 0,
-                    SubTotal = od.SubTotal,
-                    Tickets = od.Tickets?.Select(t => new TicketResponse
-                    {
-                        Id = t.Id,
-                        EventId = t.EventId,
-                        TicketTypeId = t.TicketTypeId,
-                        Status = t.Status,
-                        SeatNumber = t.SeatNumber
-                    }).ToList() ?? new List<TicketResponse>()
-                }).ToList() ?? new List<OrderDetailResponse>()
-            };
-            return response;
-        }
- */
-
-
         public static OrderResponse ToResponse(Order entity)
         {
             var response = new OrderResponse

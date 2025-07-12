@@ -42,7 +42,7 @@ namespace ic_tienda_data.Services
                 Description = eventToCancel.Description,
                 Date = eventToCancel.Date,
                 Location = eventToCancel.Location,
-                ImageUrl = eventToCancel.ImageUrl,
+                // ImgPath = eventToCancel.ImageUrl,
                 Status = "Cancelado" // Nuevo estado
             };
             await _eventRepository.UpdateAsync(eventId, updateRequest);
