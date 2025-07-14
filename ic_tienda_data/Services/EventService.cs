@@ -74,7 +74,7 @@ namespace ic_tienda_data.Services
                     CustomerId = order.CustomerId,
                     OrderDate = order.OrderDate,
                     TotalAmount = order.TotalAmount,
-                    Status = "Evento Cancelado", // Nuevo estado
+                    Status = "Cancelado", // Nuevo estado
                     PaymentMethod = order.PaymentMethod,
                     TransactionId = order.TransactionId
                 };

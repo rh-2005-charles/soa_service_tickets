@@ -25,6 +25,8 @@ namespace ic_tienda_data.Repositories
                 var order = await _context.Orders
                     .Include(o => o.OrderDetails)
                         .ThenInclude(od => od.Tickets)
+                    .Include(o => o.OrderDetails)
+                        .ThenInclude(od => od.TicketType)
                     .FirstOrDefaultAsync(o => o.Id == orderId);
 
                 if (order == null)
@@ -40,6 +42,9 @@ namespace ic_tienda_data.Repositories
                     {
                         ticket.Status = "Cancelado";
                     }
+
+                    var ticketType = orderDetail.TicketType;
+                    ticketType.Quantity += orderDetail.Quantity;
                 }
 
                 // 4. Guardar cambios
