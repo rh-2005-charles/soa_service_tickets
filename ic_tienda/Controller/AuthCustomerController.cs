@@ -64,5 +64,14 @@ namespace ic_tienda.Controller
                 return BadRequest(new { message = ex.Message });
             }
         }
+
+
+        [HttpPut("{orderId}/cancel")]
+        public async Task<IActionResult> CancelOrder(int orderId)
+        {
+            var result = await _service.CancelOrderAsync(orderId);
+
+            return Ok(result);
+        }
     }
 }

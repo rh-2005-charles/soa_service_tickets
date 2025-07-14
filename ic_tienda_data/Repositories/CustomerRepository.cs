@@ -16,6 +16,45 @@ namespace ic_tienda_data.Repositories
             _context = context;
         }
 
+        public async Task<bool> CancelOrderAsync(int orderId)
+        {
+            using var transaction = await _context.Database.BeginTransactionAsync();
+            try
+            {
+                // 1. Obtener la orden
+                var order = await _context.Orders
+                    .Include(o => o.OrderDetails)
+                        .ThenInclude(od => od.Tickets)
+                    .FirstOrDefaultAsync(o => o.Id == orderId);
+
+                if (order == null)
+                    return false;
+
+                // 2. Cambiar estado de la orden a "Cancelado"
+                order.Status = "Cancelado";
+
+                // 3. Cambiar estado de todos los tickets asociados
+                foreach (var orderDetail in order.OrderDetails)
+                {
+                    foreach (var ticket in orderDetail.Tickets)
+                    {
+                        ticket.Status = "Cancelado";
+                    }
+                }
+
+                // 4. Guardar cambios
+                await _context.SaveChangesAsync();
+                await transaction.CommitAsync();
+
+                return true;
+            }
+            catch
+            {
+                await transaction.RollbackAsync();
+                throw;
+            }
+        }
+
         public async Task<CustomerAuthResponse> Create(CustomerRegisterRequest request)
         {
             var customer = CustomerMapper.ToModel(request);

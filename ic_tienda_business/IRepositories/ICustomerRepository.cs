@@ -9,5 +9,8 @@ namespace ic_tienda_business.IRepositories
         Task<CustomerAuthResponse> Create(CustomerRegisterRequest customer);
 
         Task<CustomerResponse> GetById(int id);
+
+        // Cancelar Evento
+        Task<bool> CancelOrderAsync(int orderId);
     }
 }

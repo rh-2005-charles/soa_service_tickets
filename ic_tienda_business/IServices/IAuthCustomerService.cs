@@ -9,5 +9,7 @@ namespace ic_tienda_business.IServices
         Task<CustomerAuthResponse> Register(CustomerRegisterRequest request);
         Task<CustomerResponse> GetById(int id);
 
+        Task<bool> CancelOrderAsync(int orderId);
+
     }
 }

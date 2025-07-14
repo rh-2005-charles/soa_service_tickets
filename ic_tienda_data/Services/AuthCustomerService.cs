@@ -18,6 +18,11 @@ namespace ic_tienda_data.Services
             _tokenService = tokenService;
         }
 
+        public async Task<bool> CancelOrderAsync(int orderId)
+        {
+            return await _customerRepository.CancelOrderAsync(orderId);
+        }
+
         public async Task<CustomerResponse> GetById(int id)
         {
             return await _customerRepository.GetById(id);

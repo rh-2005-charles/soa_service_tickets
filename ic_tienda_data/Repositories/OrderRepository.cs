@@ -90,8 +90,6 @@ namespace ic_tienda_data.Repositories
             return orders.Select(OrderMapper.ToResponse).ToList();
         }
 
-
-
         public async Task<List<OrderResponse>> GetByEventIdAsync(int eventId)
         {
             var orders = await _context.Orders
