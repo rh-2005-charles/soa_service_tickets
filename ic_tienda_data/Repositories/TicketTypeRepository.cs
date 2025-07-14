@@ -43,9 +43,15 @@ namespace ic_tienda_data.Repositories
             }
         }
 
-        public async Task<PaginatedResponse<TicketTypeResponse>> GetAllAsync(QueryObject query)
+        public async Task<PaginatedResponse<TicketTypeResponse>> GetAllAsync(TicketTypeQueryObject query)
         {
             var queryAble = _context.TicketTypes.OrderBy(e => e.Id).AsQueryable();
+
+            // Apply eventId filter if provided
+            if (query.EventId.HasValue)
+            {
+                queryAble = queryAble.Where(e => e.EventId == query.EventId.Value);
+            }
 
             // Apply search filter if provided
             if (!string.IsNullOrEmpty(query.Search))

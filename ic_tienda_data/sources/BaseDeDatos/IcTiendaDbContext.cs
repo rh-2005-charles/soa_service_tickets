@@ -1,5 +1,4 @@
 using ic_tienda_data.sources.BaseDeDatos.Models;
-using ic_tienda_data.sources.BaseDeDatos.Models.ActivityLogs;
 using ic_tienda_data.sources.BaseDeDatos.Seeds;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;

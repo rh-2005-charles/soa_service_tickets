@@ -10,4 +10,9 @@ namespace ic_tienda_business.Helpers
         public string? SortBy { get; set; } = "id";
         public bool IsDescending { get; set; } = false;
     }
+
+    public class TicketTypeQueryObject : QueryObject
+    {
+        public int? EventId { get; set; }
+    }
 }

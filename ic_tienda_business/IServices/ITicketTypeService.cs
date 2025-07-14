@@ -6,7 +6,7 @@ namespace ic_tienda_business.IServices
 {
     public interface ITicketTypeService
     {
-        Task<PaginatedResponse<TicketTypeResponse>> GetAllAsync(QueryObject query);
+        Task<PaginatedResponse<TicketTypeResponse>> GetAllAsync(TicketTypeQueryObject query);
         Task<TicketTypeResponse> GetByIdAsync(int id);
         Task<TicketTypeResponse> AddAsync(TicketTypeRequest request);
         Task<TicketTypeResponse> UpdateAsync(int id, TicketTypeRequest request);

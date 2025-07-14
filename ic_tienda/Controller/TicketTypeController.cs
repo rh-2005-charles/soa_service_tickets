@@ -24,7 +24,7 @@ namespace ic_tienda.Controller
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll([FromQuery] QueryObject query)
+        public async Task<IActionResult> GetAll([FromQuery] TicketTypeQueryObject query)
         {
             var item = await _service.GetAllAsync(query);
             return Ok(item);

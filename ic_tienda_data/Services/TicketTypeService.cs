@@ -24,7 +24,7 @@ namespace ic_tienda_data.Services
             await _repository.DeleteAsync(id);
         }
 
-        public async Task<PaginatedResponse<TicketTypeResponse>> GetAllAsync(QueryObject query)
+        public async Task<PaginatedResponse<TicketTypeResponse>> GetAllAsync(TicketTypeQueryObject query)
         {
             return await _repository.GetAllAsync(query);
         }
